@@ -281,6 +281,7 @@
 	// TODO: Validate polygon to make sure it's renderable (eg. complete, and no cross-overs)
 	// TODO: Don't peform unnecessary logic and tagging for non-building ways
 	VIZI.DataOverpass.prototype.processWay = function(result, ways, nodes, element, simple) {
+		console.log("processWay");
 		var self = this;
 
 		var tags = element.tags || {};
@@ -355,6 +356,7 @@
 	};
 
 	VIZI.DataOverpass.prototype.processRelation = function(result, ways, nodes, element) {
+		console.log("process relation");
 		var self = this;
 
 		if (element.tags.type !== "multipolygon" && element.tags.type !== "building") {
@@ -422,6 +424,7 @@
 
 	// From: https://github.com/kekscom/osmbuildings/blob/c68e6d87e52de0260e6b2d2f6660d550b79b4915/src/import/OSMXAPI.js#L39
 	VIZI.DataOverpass.prototype.getRelationWays = function(members, ways) {
+		console.log("getRelationWays");
 		var m, outer, inner = [];
 		for (var i = 0, il = members.length; i < il; i++) {
 			m = members[i];
@@ -555,6 +558,7 @@
 			colour = 0x6DCCFF;
 		} else if (tags["landuse"] === "forest") {
 			console.log("landuse forest");
+			console.table(tags);
 			colour = 0x7ea410;
 		} else if (tags["natural"] === "wood" || tags["leisure"] && /park|pitch/.test(tags["leisure"]) || tags["landuse"] && /grass|meadow/.test(tags["landuse"])) {
 			colour = 0xc0da75;
