@@ -30,12 +30,14 @@
     // Debug output
     VIZI.DEBUG = false;
 
-    VIZI.ENABLE_OUTLINES = false;
+    VIZI.ENABLE_OUTLINES = true;
     VIZI.ENABLE_ROADS = true;
 
     var city = new VIZI.City();
     city.init({
-      coords: [-0.01924, 51.50358], // Canary Wharf
+      
+      // coords: [-0.01924, 51.50358], // Canary Wharf
+      coords: [25.24342,65.13290], // Virpiniemi Golf
       domElement: document.getElementById("vizicities-container"),
       overpassGridUpdate: true
     });

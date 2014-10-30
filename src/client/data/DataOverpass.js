@@ -28,7 +28,7 @@
 			"way({s},{w},{n},{e})[aeroway~%22aerodrome|runway%22];" +
 			"way({s},{w},{n},{e})[waterway~%22riverbank|dock%22];" +
 			"way({s},{w},{n},{e})[waterway=%22canal%22][area=%22yes%22];" +
-			"way({s},{w},{n},{e})[natural~%22water|scrub%22];" +
+			"way({s},{w},{n},{e})[natural~%22water|wood%22];" +
 			"way({s},{w},{n},{e})[leisure~%22park|pitch%22];" +
 			"way({s},{w},{n},{e})[landuse~%22grass|meadow|forest%22];" +
 			((VIZI.ENABLE_ROADS) ? "way({s},{w},{n},{e})[highway~%22motorway|trunk|primary|secondary|tertiary|motorway_link|primary_link|secondary_link|tertiary_link|road%22];" : "") +
@@ -38,13 +38,13 @@
 			"((" +
 			"rel({s},{w},{n},{e})[waterway~%22riverbank|dock%22];" +
 			"rel({s},{w},{n},{e})[waterway=%22canal%22][area=%22yes%22];" +
-			"rel({s},{w},{n},{e})[natural~%22water|scrub%22];" +
+			"rel({s},{w},{n},{e})[natural~%22water|wood%22];" +
 			"rel({s},{w},{n},{e})[leisure~%22park|pitch%22];" +
 			"rel({s},{w},{n},{e})[landuse~%22grass|meadow|forest|commercial|retail|industrial|construction|brownfield%22];" +
 			");(._;way(r););(._;node(w););(" +
 			"way({s},{w},{n},{e})[waterway~%22riverbank|dock%22];" +
 			"way({s},{w},{n},{e})[waterway=%22canal%22][area=%22yes%22];" +
-			"way({s},{w},{n},{e})[natural~%22water|scrub%22];" +
+			"way({s},{w},{n},{e})[natural~%22water|wood%22];" +
 			"way({s},{w},{n},{e})[leisure~%22park|pitch%22];" +
 			"way({s},{w},{n},{e})[landuse~%22grass|meadow|forest|commercial|retail|industrial|construction|brownfield%22];" +
 			");(._;node(w);););out;";
@@ -503,7 +503,7 @@
 		// } else if (tags["waterway"] || tags["natural"] && /water|scrub/.test(tags["natural"]) || tags["leisure"] && /park|pitch/.test(tags["leisure"]) || tags["landuse"] && /grass|meadow|commercial|retail|industrial|brownfield/.test(tags["landuse"])) {
 		} else if (tags["waterway"] || tags["natural"] === "water") {
 			height = 4;
-		} else if (tags["natural"] === "scrub" || tags["leisure"] && /park|pitch/.test(tags["leisure"]) || tags["landuse"] && /grass|meadow/.test(tags["landuse"]) || tags["aeroway"] === "runway") {
+		} else if (tags["natural"] === "wood" || tags["leisure"] && /park|pitch/.test(tags["leisure"]) || tags["landuse"] && /grass|meadow/.test(tags["landuse"]) || tags["aeroway"] === "runway") {
 			height = 3;
 		} else {
 			height = 1;
@@ -548,14 +548,15 @@
 	};
 
 	VIZI.DataOverpass.prototype.processColour = function(tags) {
-		var colour;
+		var colour;		
 		if (tags["building"] || tags["building:part"]) {
 			colour = (VIZI.ENABLE_OUTLINES) ? 0xffffff : 0xeeeeee;
 		} else if (tags["waterway"] || tags["natural"] === "water") {
 			colour = 0x6DCCFF;
 		} else if (tags["landuse"] === "forest") {
+			console.log("landuse forest");
 			colour = 0x7ea410;
-		} else if (tags["natural"] === "scrub" || tags["leisure"] && /park|pitch/.test(tags["leisure"]) || tags["landuse"] && /grass|meadow/.test(tags["landuse"])) {
+		} else if (tags["natural"] === "wood" || tags["leisure"] && /park|pitch/.test(tags["leisure"]) || tags["landuse"] && /grass|meadow/.test(tags["landuse"])) {
 			colour = 0xc0da75;
 		} else if (tags["landuse"] && /industrial|construction|brownfield/.test(tags["landuse"])) {
 			colour = 0xd8c7b5;

@@ -78,7 +78,7 @@
 				cameraRadiusDiff = zoomCapLow - oldcameraRadius;
 			}
 
-			var zoomCapHigh = 2000;
+			var zoomCapHigh = 99999;
 			if (this.cameraRadius > zoomCapHigh) {
 				this.cameraRadius = zoomCapHigh;
 				cameraRadiusDiff = zoomCapHigh - oldcameraRadius;
