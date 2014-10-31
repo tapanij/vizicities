@@ -31,7 +31,7 @@
 			"way({s},{w},{n},{e})[natural~%22.%22];" +
 			"way({s},{w},{n},{e})[leisure~%22.%22];" +
 			"way({s},{w},{n},{e})[landuse~%22.%22];" +
-			((VIZI.ENABLE_ROADS) ? "way({s},{w},{n},{e})[highway~%22.%22];" : "") +
+			((VIZI.ENABLE_ROADS) ? "way({s},{w},{n},{e})[highway~%22motorway|trunk|primary|secondary|tertiary|residential|unclassified|service|motorway_link|primary_link|secondary_link|tertiary_link|residential_link|unclassified_link|service_link|road%22];" : "") +
 			");(._;node(w);););out;";
 
 		this.queryLow = "[out:json];" +
