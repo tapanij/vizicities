@@ -25,27 +25,27 @@
 			");(._;way(r););(._;node(w););(" +
 			"way({s},{w},{n},{e})[%22building%22];" +
 			"way({s},{w},{n},{e})[%22building:part%22];" +
-			"way({s},{w},{n},{e})[aeroway~%22aerodrome|runway%22];" +
-			"way({s},{w},{n},{e})[waterway~%22riverbank|dock%22];" +
-			"way({s},{w},{n},{e})[waterway=%22canal%22][area=%22yes%22];" +
-			"way({s},{w},{n},{e})[natural~%22water|wood%22];" +
-			"way({s},{w},{n},{e})[leisure~%22park|pitch%22];" +
+			"way({s},{w},{n},{e})[aeroway~%22.%22];" +
+			"way({s},{w},{n},{e})[waterway~%22.%22];" +
+			"way({s},{w},{n},{e})[waterway=%22.%22][area=%22yes%22];" +
+			"way({s},{w},{n},{e})[natural~%22.%22];" +
+			"way({s},{w},{n},{e})[leisure~%22.%22];" +
 			"way({s},{w},{n},{e})[landuse~%22.%22];" +
 			((VIZI.ENABLE_ROADS) ? "way({s},{w},{n},{e})[highway~%22.%22];" : "") +
 			");(._;node(w);););out;";
 
 		this.queryLow = "[out:json];" +
 			"((" +
-			"rel({s},{w},{n},{e})[waterway~%22riverbank|dock%22];" +
-			"rel({s},{w},{n},{e})[waterway=%22canal%22][area=%22yes%22];" +
-			"rel({s},{w},{n},{e})[natural~%22water|wood%22];" +
-			"rel({s},{w},{n},{e})[leisure~%22park|pitch%22];" +
+			"rel({s},{w},{n},{e})[waterway~%22.%22];" +
+			"rel({s},{w},{n},{e})[waterway=%22.%22][area=%22yes%22];" +
+			"rel({s},{w},{n},{e})[natural~%22.%22];" +
+			"rel({s},{w},{n},{e})[leisure~%22park.%22];" +
 			"rel({s},{w},{n},{e})[landuse~%22.%22];" +
 			");(._;way(r););(._;node(w););(" +
-			"way({s},{w},{n},{e})[waterway~%22riverbank|dock%22];" +
-			"way({s},{w},{n},{e})[waterway=%22canal%22][area=%22yes%22];" +
-			"way({s},{w},{n},{e})[natural~%22water|wood%22];" +
-			"way({s},{w},{n},{e})[leisure~%22park|pitch%22];" +
+			"way({s},{w},{n},{e})[waterway~%22.%22];" +
+			"way({s},{w},{n},{e})[waterway=%22.%22][area=%22yes%22];" +
+			"way({s},{w},{n},{e})[natural~%22.%22];" +
+			"way({s},{w},{n},{e})[leisure~%22.%22];" +
 			"way({s},{w},{n},{e})[landuse~%22.%22];" +
 			");(._;node(w);););out;";
 
