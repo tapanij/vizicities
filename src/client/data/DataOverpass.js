@@ -30,7 +30,7 @@
 			"way({s},{w},{n},{e})[waterway=%22canal%22][area=%22yes%22];" +
 			"way({s},{w},{n},{e})[natural~%22water|wood%22];" +
 			"way({s},{w},{n},{e})[leisure~%22park|pitch%22];" +
-			"way({s},{w},{n},{e})[landuse~%22grass|meadow|forest%22];" +
+			"way({s},{w},{n},{e})[landuse~%22.%22];" +
 			((VIZI.ENABLE_ROADS) ? "way({s},{w},{n},{e})[highway~%22.%22];" : "") +
 			");(._;node(w);););out;";
 
@@ -40,13 +40,13 @@
 			"rel({s},{w},{n},{e})[waterway=%22canal%22][area=%22yes%22];" +
 			"rel({s},{w},{n},{e})[natural~%22water|wood%22];" +
 			"rel({s},{w},{n},{e})[leisure~%22park|pitch%22];" +
-			"rel({s},{w},{n},{e})[landuse~%22grass|meadow|forest|commercial|retail|industrial|construction|brownfield%22];" +
+			"rel({s},{w},{n},{e})[landuse~%22.%22];" +
 			");(._;way(r););(._;node(w););(" +
 			"way({s},{w},{n},{e})[waterway~%22riverbank|dock%22];" +
 			"way({s},{w},{n},{e})[waterway=%22canal%22][area=%22yes%22];" +
 			"way({s},{w},{n},{e})[natural~%22water|wood%22];" +
 			"way({s},{w},{n},{e})[leisure~%22park|pitch%22];" +
-			"way({s},{w},{n},{e})[landuse~%22grass|meadow|forest|commercial|retail|industrial|construction|brownfield%22];" +
+			"way({s},{w},{n},{e})[landuse~%22.%22];" +
 			");(._;node(w);););out;";
 
 		// URL of data source
