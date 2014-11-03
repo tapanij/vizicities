@@ -523,9 +523,13 @@
 			}			
 			console.log(height);
 		} else {
-			height = -10;
+			if (this.secondHackHeight == undefined) {
+					this.secondHackHeight = 1;
+				} else {
+					this.secondHackHeight += 0.01;
+				}
+				height = this.secondHackHeight;
 			// console.table(tags);
-			height = 1;
 		}
 
 		height *= this.geo.pixelsPerMeter;
@@ -600,7 +604,15 @@
 			}
 		} else {
 			VIZI.Log("Setting default colour for feaure", tags);
-			colour = 0xFF0000;
+			// random color
+			var letters = '0123456789ABCDEF'.split('');
+			var color = '#';
+			for (var i = 0; i < 6; i++) {
+				color += letters[Math.floor(Math.random() * 16)];
+			}
+			colour = color;
+			
+			// colour = 0xFF0000;
 		}
 
 		return colour;
