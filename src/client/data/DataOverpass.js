@@ -496,25 +496,37 @@
 		} else if (!height && tags["building:height"]) {
 			height = this.toMeters(tags["building:height"]);
 		} else if (!height && tags.levels) {
-			height = tags.levels * this.METERS_PER_LEVEL * scalingFactor <<0;
+			height = tags.levels * this.METERS_PER_LEVEL * scalingFactor << 0;
 		} else if (!height && tags["building:levels"]) {
-			height = tags["building:levels"] * this.METERS_PER_LEVEL * scalingFactor <<0;
+			height = tags["building:levels"] * this.METERS_PER_LEVEL * scalingFactor << 0;
 		} else if (tags["building"]) {
 			height = 10 + Math.random() * 10;
 		} else if (tags["landuse"] === "forest") {
 			height = 7;
-		// } else if (tags["waterway"] || tags["natural"] && /water|scrub/.test(tags["natural"]) || tags["leisure"] && /park|pitch/.test(tags["leisure"]) || tags["landuse"] && /grass|meadow|commercial|retail|industrial|brownfield/.test(tags["landuse"])) {
+			// } else if (tags["waterway"] || tags["natural"] && /water|scrub/.test(tags["natural"]) || tags["leisure"] && /park|pitch/.test(tags["leisure"]) || tags["landuse"] && /grass|meadow|commercial|retail|industrial|brownfield/.test(tags["landuse"])) {
 		} else if (tags["waterway"] || tags["natural"] === "water") {
 			height = -10;
 		} else if (tags["natural"] === "wood" || tags["leisure"] && /park|pitch/.test(tags["leisure"]) || tags["landuse"] && /grass|meadow/.test(tags["landuse"]) || tags["aeroway"] === "runway") {
 			height = 3;
-        } else if (tags["natural"] === "coastline") {
-            height = 1;
-        } else {
-            height = -10;
-            // console.table(tags);
-            height = 1;
-        }
+		} else if (tags["natural"] === "coastline") {
+			console.table(tags);
+			if (tags["description"] === "Mainland coastline") {
+				console.log("jop");
+				height = 0.01;
+			} else {				
+				if (this.hackHeight == undefined) {
+					this.hackHeight = 0.03;
+				} else {
+					this.hackHeight += 0.01;
+				}
+				height = this.hackHeight;
+			}			
+			console.log(height);
+		} else {
+			height = -10;
+			// console.table(tags);
+			height = 1;
+		}
 
 		height *= this.geo.pixelsPerMeter;
 
@@ -555,14 +567,14 @@
 	};
 
 	VIZI.DataOverpass.prototype.processColour = function(tags) {
-		var colour;		
+		var colour;
 		if (tags["building"] || tags["building:part"]) {
 			colour = 0xce950e;
 		} else if (tags["waterway"] || tags["natural"] === "water") {
 			colour = 0x6DCCFF;
 		} else if (tags["landuse"] === "forest") {
-			console.log("landuse forest");
-			console.table(tags);
+			// console.log("landuse forest");
+			// console.table(tags);
 			colour = 0x7ea410;
 		} else if (tags["natural"] === "wood" || tags["leisure"] && /park|pitch/.test(tags["leisure"]) || tags["landuse"] && /grass|meadow/.test(tags["landuse"])) {
 			colour = 0xc0da75;
@@ -575,7 +587,17 @@
 		} else if (tags["aeroway"] === "runway") {
 			colour = 0x666666;
 		} else if (tags["natural"] === "coastline") {
-			colour = 0x4acdff;
+			if (tags["description"] === "Mainland coastline") {
+				colour = 0x4acdff; // bleu
+			} else {
+				// random color
+				var letters = '0123456789ABCDEF'.split('');
+				var color = '#';
+				for (var i = 0; i < 6; i++) {
+					color += letters[Math.floor(Math.random() * 16)];
+				}
+				colour = color;
+			}
 		} else {
 			VIZI.Log("Setting default colour for feaure", tags);
 			colour = 0xFF0000;
