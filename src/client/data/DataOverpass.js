@@ -529,7 +529,7 @@
 					this.secondHackHeight += 0.01;
 				}
 				height = this.secondHackHeight;
-			// console.table(tags);
+			console.table(tags);
 		}
 
 		height *= this.geo.pixelsPerMeter;
