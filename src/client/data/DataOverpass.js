@@ -281,7 +281,7 @@
 	// TODO: Validate polygon to make sure it's renderable (eg. complete, and no cross-overs)
 	// TODO: Don't peform unnecessary logic and tagging for non-building ways
 	VIZI.DataOverpass.prototype.processWay = function(result, ways, nodes, element, simple) {
-		console.log("processWay");
+		// console.log("processWay");
 		var self = this;
 
 		var tags = element.tags || {};
@@ -508,9 +508,13 @@
 			height = -10;
 		} else if (tags["natural"] === "wood" || tags["leisure"] && /park|pitch/.test(tags["leisure"]) || tags["landuse"] && /grass|meadow/.test(tags["landuse"]) || tags["aeroway"] === "runway") {
 			height = 3;
-		} else {
-			height = -10;
-		}
+        } else if (tags["natural"] === "coastline") {
+            height = 1;
+        } else {
+            height = -10;
+            // console.table(tags);
+            height = 1;
+        }
 
 		height *= this.geo.pixelsPerMeter;
 
@@ -570,6 +574,8 @@
 			colour = 0xeeeeee;
 		} else if (tags["aeroway"] === "runway") {
 			colour = 0x666666;
+		} else if (tags["natural"] === "coastline") {
+			colour = 0x4acdff;
 		} else {
 			VIZI.Log("Setting default colour for feaure", tags);
 			colour = 0xFF0000;
