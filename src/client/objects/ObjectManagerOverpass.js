@@ -197,6 +197,7 @@
 
         var createRoadObject = function(feature) {          
           var properties = feature.properties;
+          console.log(properties);
 
           // START: http://bai.dev.supcrit.com/scripts/engine/things/road.js
 
@@ -211,7 +212,11 @@
           if (type === "footway" || type === "pedestrian" || type === "steps" || type === "cycleway") {
             return;
           }
-          if (type !== "primary" && type !== "primary_link" && type !== "secondary" && type !== "secondary_link"){
+          if (
+            type !== "primary" && type !== "primary_link" && 
+            type !== "secondary" && type !== "secondary_link"&& 
+            type !== "residential" && type !== "residential_link"
+            ){
             width *= 0.5;
           }
           console.log("type: "+type);
