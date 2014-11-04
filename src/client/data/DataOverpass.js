@@ -505,33 +505,36 @@
 			height = 7;
 			// } else if (tags["waterway"] || tags["natural"] && /water|scrub/.test(tags["natural"]) || tags["leisure"] && /park|pitch/.test(tags["leisure"]) || tags["landuse"] && /grass|meadow|commercial|retail|industrial|brownfield/.test(tags["landuse"])) {
 		} else if (tags["waterway"] || tags["natural"] === "water") {
-			height = -10;
+			height = 4;
 		} else if (tags["natural"] === "wood" || tags["leisure"] && /park|pitch/.test(tags["leisure"]) || tags["landuse"] && /grass|meadow/.test(tags["landuse"]) || tags["aeroway"] === "runway") {
 			height = 3;
 		} else if (tags["natural"] === "coastline") {
-			console.table(tags);
-			if (tags["description"] === "Mainland coastline") {
-				console.log("jop");
-				height = 0.01;
-			} else {				
-				if (this.hackHeight == undefined) {
-					this.hackHeight = 0.03;
-				} else {
-					this.hackHeight += 0.01;
-				}
-				height = this.hackHeight;
-			}			
-			console.log(height);
+			// console.table(tags);
+			// if (tags["description"] === "Mainland coastline") {
+			// 	console.log("jop");
+			// 	height = 0.01;
+			// } else {
+			// 	if (this.hackHeight == undefined) {
+			// 		this.hackHeight = 0.03;
+			// 	} else {
+			// 		this.hackHeight += 0.01;
+			// 	}
+			// 	height = this.hackHeight;
+			// }
+			// console.log(height);
+
+			height = -10;
 		} else {
 			if (this.secondHackHeight == undefined) {
-					this.secondHackHeight = 1;
-				} else {
-					this.secondHackHeight += 0.01;
-				}
-				height = this.secondHackHeight;
-			console.table(tags);
-		}
+				this.secondHackHeight = 1;
+			} else {
+				this.secondHackHeight += 0.01;
+			}
+			height = this.secondHackHeight;
+			// console.table(tags);
 
+			// height = -10;
+		}
 		height *= this.geo.pixelsPerMeter;
 
 		return height;
@@ -611,7 +614,7 @@
 				color += letters[Math.floor(Math.random() * 16)];
 			}
 			colour = color;
-			
+
 			// colour = 0xFF0000;
 		}
 

@@ -195,34 +195,39 @@
           return mesh;
         };
 
-        // START: http://bai.dev.supcrit.com/scripts/engine/things/road.js
-
-        var thickness = 0.01 * pixelsPerMeter;
-        var width = 4 * pixelsPerMeter;
-
-        // var thickness = 1;
-        // var width = 10;
-        
-        var roadpoints = [
-          new THREE.Vector2(-thickness, width/2),
-          new THREE.Vector2(-thickness, -width/2),
-          new THREE.Vector2(thickness, -width/2),
-          new THREE.Vector2(thickness, width/2),
-          new THREE.Vector2(-thickness, width/2)
-        ];
-
-        var roadshape = new THREE.Shape(roadpoints);
-
-        // END: http://bai.dev.supcrit.com/scripts/engine/things/road.js
-
-        var createRoadObject = function(feature) {
+        var createRoadObject = function(feature) {          
           var properties = feature.properties;
+
+          // START: http://bai.dev.supcrit.com/scripts/engine/things/road.js
+
+          var thickness = 0.01 * pixelsPerMeter;
+          var width = 4 * pixelsPerMeter;
+
+          // var thickness = 1;
+          // var width = 10;
 
           // Skip non-roads for simplicity
           var type = properties.highway;
           if (type === "footway" || type === "pedestrian" || type === "steps" || type === "cycleway") {
             return;
           }
+          if (type !== "primary" && type !== "primary_link" && type !== "secondary" && type !== "secondary_link"){
+            width *= 0.5;
+          }
+          console.log("type: "+type);
+          
+          var roadpoints = [
+            new THREE.Vector2(-thickness, width/2),
+            new THREE.Vector2(-thickness, -width/2),
+            new THREE.Vector2(thickness, -width/2),
+            new THREE.Vector2(thickness, width/2),
+            new THREE.Vector2(-thickness, width/2)
+          ];
+
+          var roadshape = new THREE.Shape(roadpoints);
+
+          // END: http://bai.dev.supcrit.com/scripts/engine/things/road.js
+
 
           var layer = Number(properties.layer);
           
