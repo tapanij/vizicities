@@ -280,6 +280,13 @@ function updateDialogs(event) {
 				dialogs[selectedObject.index] = $("#" + newDialog).dialog({
 					width: 300,
 					height: "auto",
+					ind: selectedObject.index,
+					close: function(ev, ui) {
+						console.log("destroy diallog");
+						debugger;
+						dialogs[ind].remove();
+						dialogs[ind] = undefined;
+					}
 				});
 
 				setDialogPosition(selectedObject.index);
