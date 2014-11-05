@@ -17,6 +17,56 @@ var proj;
 var pois = [];
 var dialogs = [];
 
+// Calculate and set dialog position
+function setDialogPosition(i) {
+	if (dialogs[i] === undefined) {
+		return;
+	}
+
+	var pLocal = new THREE.Vector3(0, 0, -1);
+	var pWorld = pLocal.applyMatrix4(camera.matrixWorld);
+	var forward = pWorld.sub(camera.position).normalize();
+	var toOther = pois[i].position.clone();
+	toOther.sub(camera.position);
+
+	if (forward.dot(toOther) < 0) {
+		dialogs[i].remove();
+		dialogs[i] = undefined;
+		return;
+	}
+
+	var x, y, p, v, percX, percY;
+
+	// this will give us position relative to the world
+	p = new THREE.Vector3(pois[i].position.x, pois[i].position.y + (pois[i].geometry.height / 2), pois[i].position.z);
+
+	// projectVector will translate position to 2d
+	projector = new THREE.Projector();
+	v = projector.projectVector(p, camera);
+
+	// translate our vector so that percX=0 represents
+	// the left edge, percX=1 is the right edge,
+	// percY=0 is the top edge, and percY=1 is the bottom edge.
+	percX = (v.x + 1) / 2;
+	percY = (-v.y + 1) / 2;
+
+	// scale these values to our viewport size
+	x = percX * window.innerWidth;
+	y = percY * window.innerHeight;
+
+	// calculate distance between the camera and the person. Used for fading the tooltip
+	var distance = p.distanceTo(camera.position);
+	distance = 2 / distance;
+
+	dialogs[i].dialog("option", "position", [x, y]);
+}
+
+function updateDialogs(event) {
+	for (var i = 0; i < dialogs.length; i++) {
+		setDialogPosition(i);
+	}
+}
+
 (function() {
 	"use strict";
 
@@ -46,7 +96,9 @@ var dialogs = [];
 
 		// when the mouse moves, call the given function
 		proj = new THREE.Projector();
-		document.addEventListener('mousedown', this.onDocumentMouseDown, false);
+		document.addEventListener('mousemove', this.onDocumentMouseMove, false);
+		document.addEventListener('mouseup', this.onDocumentMouseUp, false);
+		document.addEventListener('mousewheel', updateDialogs, false);
 		this.createBox(0, 0, "test name", "test description", 398983);
 		
 
@@ -168,14 +220,31 @@ var dialogs = [];
 		// nameSprite.position.set(0, 35, 0);
 		// cube.add(nameSprite);
 
-		// cube.index = pois.length;
+		cube.index = pois.length;
 		pois.push(cube);
 		dialogs.push(undefined);
 
 		console.log("createBox end");
 	};
 
-	VIZI.Scene.prototype.onDocumentMouseDown = function(event) {
+	VIZI.Scene.prototype.onDocumentMouseMove = function(event) {
+		// the following line would stop any other event handler from firing
+		// (such as the mouse's TrackballControls)
+		// event.preventDefault();
+
+		// update the mouse variable
+		mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+		mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+
+		updateDialogs();
+
+	};
+
+	VIZI.Scene.prototype.onDocumentMouseUp = function(event) {
+	
+
+
 		// the following line would stop any other event handler from firing
 		// (such as the mouse's TrackballControls)
 		// event.preventDefault();
