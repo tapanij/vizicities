@@ -1,4 +1,7 @@
 /* globals window, _, VIZI, THREE */
+// POI
+var camera;
+
 (function() {
 	"use strict";
 
@@ -32,7 +35,7 @@
 	VIZI.Camera.prototype.createCamera = function() {
 		VIZI.Log("Creating WebGL camera");
 
-		var camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 100, 40000 );
+		camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 100, 40000 );
 		this.updatePosition(camera);
 
 		return camera;
