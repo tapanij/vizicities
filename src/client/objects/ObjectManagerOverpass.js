@@ -197,7 +197,7 @@
 
         var createRoadObject = function(feature) {          
           var properties = feature.properties;
-          console.log(properties);
+          // console.log(properties);
 
           // START: http://bai.dev.supcrit.com/scripts/engine/things/road.js
 
@@ -219,7 +219,7 @@
             ){
             width *= 0.5;
           }
-          console.log("type: "+type);
+          // console.log("type: "+type);
           
           var roadpoints = [
             new THREE.Vector2(-thickness, width/2),
