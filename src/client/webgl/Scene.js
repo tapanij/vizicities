@@ -283,9 +283,9 @@ function updateDialogs(event) {
 					ind: selectedObject.index,
 					close: function(ev, ui) {
 						console.log("destroy diallog");
-						debugger;
-						dialogs[ind].remove();
-						dialogs[ind] = undefined;
+						var customAttrValue = $("#"+this.id).dialog("option", "ind");
+						dialogs[customAttrValue].remove();
+						dialogs[customAttrValue] = undefined;
 					}
 				});
 
