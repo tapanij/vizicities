@@ -46,7 +46,8 @@
 			"way({s},{w},{n},{e})[waterway~%22.%22];" +
 			"way({s},{w},{n},{e})[waterway=%22.%22][area=%22yes%22];" +
 			"way({s},{w},{n},{e})[natural~%22.%22];" +
-			"way({s},{w},{n},{e})[leisure~%22.%22];" +
+			// "way({s},{w},{n},{e})[leisure~%22.%22];" + // don't load every leisure place, check the comment above at this.queryHigh 
+			"way({s},{w},{n},{e})[leisure~%22park|pitch%22];" +
 			"way({s},{w},{n},{e})[landuse~%22.%22];" +
 			");(._;node(w);););out;";
 
