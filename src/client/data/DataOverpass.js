@@ -29,7 +29,8 @@
 			"way({s},{w},{n},{e})[waterway~%22.%22];" +
 			"way({s},{w},{n},{e})[waterway=%22.%22][area=%22yes%22];" +
 			"way({s},{w},{n},{e})[natural~%22.%22];" +
-			"way({s},{w},{n},{e})[leisure~%22.%22];" +
+			// "way({s},{w},{n},{e})[leisure~%22.%22];" + // get leisure places http://wiki.openstreetmap.org/wiki/Leisure, caused errors and empty tiles near sensor 357: Uncaught TypeError: Cannot read property 'done' of undefined and log: "No features left to pass to worker"
+			"way({s},{w},{n},{e})[leisure~%22park|pitch%22];" + // original
 			"way({s},{w},{n},{e})[landuse~%22.%22];" +
 			((VIZI.ENABLE_ROADS) ? "way({s},{w},{n},{e})[highway~%22motorway|trunk|primary|secondary|tertiary|residential|unclassified|service|motorway_link|primary_link|secondary_link|tertiary_link|residential_link|unclassified_link|service_link|road%22];" : "") +
 			");(._;node(w);););out;";
