@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<!-- saved from url=(0054)http://www.openstreetmap.org/#map=18/43.46279/-3.81597 -->
+<html lang="en-US" dir="ltr"><script>(function main() {
+    // Create enabled event
+    function fireEnabledEvent() {
+        // If gli exists, then we are already present and shouldn't do anything
+        if (!window.gli) {
+            setTimeout(function () {
+                var enabledEvent = document.createEvent("Event");
+                enabledEvent.initEvent("WebGLEnabledEvent", true, true);
+                document.dispatchEvent(enabledEvent);
+            }, 0);
+        } else {
+            //console.log("WebGL Inspector already embedded on the page - disabling extension");
+        }
+    };
+
+    // Grab the path root from the extension
+    document.addEventListener("WebGLInspectorReadyEvent", function (e) {
+        var pathElement = document.getElementById("__webglpathroot");
+        if (window["gliloader"]) {
+            gliloader.pathRoot = pathElement.innerText;
+        } else {
+            // TODO: more?
+            window.gliCssUrl = pathElement.innerText + "gli.all.css";
+        }
+    }, false);
+
+    // Rewrite getContext to snoop for webgl
+    var originalGetContext = HTMLCanvasElement.prototype.getContext;
+    if (!HTMLCanvasElement.prototype.getContextRaw) {
+        HTMLCanvasElement.prototype.getContextRaw = originalGetContext;
+    }
+    HTMLCanvasElement.prototype.getContext = function () {
+        var ignoreCanvas = this.internalInspectorSurface;
+        if (ignoreCanvas) {
+            return originalGetContext.apply(this, arguments);
+        }
+
+        var result = originalGetContext.apply(this, arguments);
+        if (result == null) {
+            return null;
+        }
+
+        var contextNames = ["moz-webgl", "webkit-3d", "experimental-webgl", "webgl", "3d"];
+        var requestingWebGL = contextNames.indexOf(arguments[0]) != -1;
+        if (requestingWebGL) {
+            // Page is requesting a WebGL context!
+            fireEnabledEvent(this);
+
+            // If we are injected, inspect this context
+            if (window.gli) {
+                if (gli.host.inspectContext) {
+                    // TODO: pull options from extension
+                    result = gli.host.inspectContext(this, result);
+                    // NOTE: execute in a timeout so that if the dom is not yet
+                    // loaded this won't error out.
+                    window.setTimeout(function() {
+                        var hostUI = new gli.host.HostUI(result);
+                        result.hostUI = hostUI; // just so we can access it later for debugging
+                    }, 0);
+                }
+            }
+        }
+
+        return result;
+    };
+})();</script><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0">
+  <!--[if lt IE 9]><script src="/assets/html5shiv-4af3a9d7661f7eab2484a86c571fc711.js"></script><![endif]-->
+  <script src="./OpenStreetMap_files/application-b8afbd3a1f5fc030728a7e9a4000f1df.js"></script>
+  <link href="http://www.openstreetmap.org/assets/small-ltr-fb0d720d6b40944d19138f1ffc0660cb.css" media="only screen and (max-width:721px)" rel="stylesheet">
+  <link href="http://www.openstreetmap.org/assets/large-ltr-d07fcb87a9d7d80cdfd4819f35ca9d4b.css" media="screen and (min-width: 722px)" rel="stylesheet">
+  <link href="http://www.openstreetmap.org/assets/print-ltr-2c45fbe1d2311391a6980d102090ceb4.css" media="print" rel="stylesheet">
+  <link href="http://www.openstreetmap.org/assets/leaflet-all-f4e33b000d3fa138a93fce0b0bbd359d.css" media="screen, print" rel="stylesheet">
+  <!--[if IE]>
+    <link href="/assets/large-ltr-d07fcb87a9d7d80cdfd4819f35ca9d4b.css" media="screen" rel="stylesheet" />
+    <link href="/assets/favicon-02184c3a7ab8c3c98cafe626f545c009.ico" rel="shortcut icon" type="image/vnd.microsoft.icon" />
+  <![endif]-->
+  <link href="http://www.openstreetmap.org/assets/osm_logo_57-2babc663789bdd86555501db00e510b9.png" rel="apple-touch-icon" sizes="57x57" type="image/png">
+  <link href="http://www.openstreetmap.org/assets/osm_logo_72-88b405bb95ca33e121bc701d067e19f5.png" rel="apple-touch-icon" sizes="72x72" type="image/png">
+  <link href="http://www.openstreetmap.org/assets/osm_logo_114-811d8d55fa9126a3e0eb104c9d47aa7d.png" rel="apple-touch-icon" sizes="114x114" type="image/png">
+  <link href="http://www.openstreetmap.org/assets/osm_logo_144-38ac9e17d1f382f1d604ffc15f35096b.png" rel="apple-touch-icon" sizes="144x144" type="image/png">
+  <link href="http://www.openstreetmap.org/assets/osm_logo_228-676c60ab5690095cf265adcb462230e0.png" rel="icon" sizes="228x228" type="image/png">
+  <meta content="/assets/osm_logo_144-38ac9e17d1f382f1d604ffc15f35096b.png" name="msapplication-TileImage">
+  <link href="https://plus.google.com/111953119785824514010" rel="publisher">
+  <link href="http://www.openstreetmap.org/assets/osm-9dcdd0a355bd71430cbe95480c052122.xml" rel="search" title="OpenStreetMap Search" type="application/opensearchdescription+xml">
+  <meta content="OpenStreetMap is the free wiki world map." name="description">
+  <meta content="/assets/osm_logo-ffa5c1cdfc01a05e3c17bedbf39854bf.png" property="og:image">
+  <style type="text/css">.hidden { display: none !important }.hide_if_logged_in { display: none !important }.hide_if_user_2434012 { display: none !important }.show_if_user_2434012 { display: inline !important }.hide_unless_administrator { display: none !important }.hide_unless_moderator { display: none !important }</style>
+    <script src="./OpenStreetMap_files/index-d461bc63f4b6a13016c0e82f3794406b.js"></script>
+
+  
+  <meta content="authenticity_token" name="csrf-param">
+<meta content="YMoftGdPYCY5LxVl3OXZ+yHUkh5Vutnx/jiaCukzG8s=" name="csrf-token">
+  <script type="text/javascript">
+    I18n.defaultLocale = "en";
+    I18n.locale = "en-US";
+    I18n.fallbacks = true;
+    OSM.preferred_editor = "id";
+    OSM.oauth_token = "eqhdsuQDJPSFUyU51cGeA2XncWFH42FNqC1gHlyL";
+    OSM.oauth_token_secret = "0m3NSaaj4Xob1i7s2ZUaoLJpfd0lmVGQFMkDebhR";
+    OSM.oauth_consumer_key = "Q09CnRAXDwihla04IrYdOMsl9lvmNHvIBU3waUMp";
+    OSM.oauth_consumer_secret = "2QgtdVPL5MKMwIH8seABv7YVjNqVXySBg5Eu7Ayj";
+  </script>
+  <title>OpenStreetMap</title>
+</head>
+
+  <body class="map-layout">
+    <header class="closed">
+  <h1>
+    <a href="./OpenStreetMap_files/OpenStreetMap.htm" class="geolink">
+      <img alt="OpenStreetMap logo" class="logo" src="./OpenStreetMap_files/osm_logo-ffa5c1cdfc01a05e3c17bedbf39854bf.png">
+      OpenStreetMap
+    </a>
+  </h1>
+  <a href="http://www.openstreetmap.org/#" id="menu-icon"></a>
+  <nav class="primary">
+      <form method="GET" action="http://www.openstreetmap.org/search" class="search_form">
+  <input name="commit" type="submit" value="Go">
+  <div class="query_wrapper">
+    <input id="query" name="query" placeholder="Search" type="text">
+    <a class="describe_location" href="http://www.openstreetmap.org/#" title="Describe the current location using the search engine">Where am I?</a>
+  </div>
+</form>
+
+
+    <ul>
+      <li id="edit_tab" class="dropdown" data-original-title="" title="">
+        <a class="tab geolink editlink" data-editor="id" href="http://www.openstreetmap.org/edit#map=18/43.46279/-3.81597" id="editanchor">Edit</a><a class="dropdown-toggle" data-toggle="dropdown" href="http://www.openstreetmap.org/#"><b class="caret"></b></a>
+        <ul class="dropdown-menu">
+            <li>
+              <a class="geolink editlink" data-editor="id" href="http://www.openstreetmap.org/edit?editor=id#map=18/43.46279/-3.81597">Edit with iD (in-browser editor)</a>
+            </li>
+            <li>
+              <a class="geolink editlink" data-editor="potlatch2" href="http://www.openstreetmap.org/edit?editor=potlatch2#map=18/43.46279/-3.81597">Edit with Potlatch 2 (in-browser editor)</a>
+            </li>
+            <li>
+              <a class="geolink editlink" data-editor="remote" href="http://www.openstreetmap.org/edit?editor=remote#map=18/43.46279/-3.81597">Edit with Remote Control (JOSM or Merkaartor)</a>
+            </li>
+        </ul>
+      </li>
+      <li id="history_tab" class="">
+        <a class="tab geolink" href="http://www.openstreetmap.org/history#map=18/43.46279/-3.81597">History</a>
+      </li>
+      <li id="export_tab" class="">
+        <a class="tab geolink" href="http://www.openstreetmap.org/export#map=18/43.46279/-3.81597">Export</a>
+      </li>
+    </ul>
+  </nav>
+  <nav class="secondary">
+    <ul>
+      <li class="compact-hide "><a href="http://www.openstreetmap.org/traces">GPS Traces</a></li>
+      <li class="compact-hide "><a href="http://www.openstreetmap.org/diary">User Diaries</a></li>
+      <li class="compact-hide "><a href="http://www.openstreetmap.org/copyright">Copyright</a></li>
+      <li class="compact-hide "><a href="http://www.openstreetmap.org/help">Help</a></li>
+      <li class="compact-hide "><a href="http://www.openstreetmap.org/about">About</a></li>
+      <li id="compact-secondary-nav" class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="http://www.openstreetmap.org/#">More <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+          <li class=""><a href="http://www.openstreetmap.org/traces">GPS Traces</a></li>
+          <li class=""><a href="http://www.openstreetmap.org/diary">User Diaries</a></li>
+          <li class=""><a href="http://www.openstreetmap.org/help">Help</a></li>
+          <li class=""><a href="http://www.openstreetmap.org/about">About</a></li>
+          <li class=""><a href="http://www.openstreetmap.org/copyright">Copyright</a></li>
+        </ul>
+      </li>
+    </ul>
+      <div class="dropdown user-menu logged-in">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="http://www.openstreetmap.org/#">
+          <img alt="" class="user_thumbnail_tiny" height="25" src="./OpenStreetMap_files/ff82fdd1adcb1b5ae0055218e5cc8f66.jpg" width="25"><span class="user-button"><span class="username">tapanij</span>
+          <b class="caret"></b></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li>
+            <a href="http://www.openstreetmap.org/user/tapanij/inbox">
+              <span class="count-number">0</span>
+              My Messages
+</a>          </li>
+          <li>
+            <a href="http://www.openstreetmap.org/user/tapanij">My Profile</a>
+          </li>
+          <li>
+            <a href="http://www.openstreetmap.org/user/tapanij/account">My Settings</a>
+          </li>
+          <li class="divider"></li>
+          <li>
+            
+          </li>
+          <li>
+            <a href="http://www.openstreetmap.org/logout?referer=%2F&session=7f7f16f9c43ed239ad6e53c72db75134">Log Out</a>
+          </li>
+        </ul>
+      </div>
+  </nav>
+</header>
+
+    <div id="content" class="overlay-sidebar">
+      <div id="sidebar">
+    <form method="GET" action="http://www.openstreetmap.org/search" class="search_form">
+  <input name="commit" type="submit" value="Go">
+  <div class="query_wrapper">
+    <input autofocus="autofocus" id="query" name="query" placeholder="Search" type="text">
+    <a class="describe_location" href="http://www.openstreetmap.org/#" title="Describe the current location using the search engine">Where am I?</a>
+  </div>
+</form>
+
+
+
+    <div id="sotm" style="display: none;">
+      <a href="http://www.stateofthemap.org/?l=en"><img alt="Sotm" src="./OpenStreetMap_files/sotm-e56cc99206ca9453c1e51750c853610c.png"></a>
+      <h2>
+        <a><span class="icon close"></span></a>
+        <a href="http://www.stateofthemap.org/?l=en">State of the Map 2014</a>
+      </h2>
+      <p><a href="http://www.stateofthemap.org/?l=en">
+        8th Annual Conference
+      <br>
+        November 7th-9th 2014
+      <br>
+        Buenos Aires, Argentina
+      </a></p>
+    </div>
+
+    <div id="flash">
+      
+
+
+    </div>
+
+    <div id="browse_status"></div>
+
+    <div id="sidebar_loader" style="display: none;">
+      <img alt="Loading..." class="loader" src="./OpenStreetMap_files/searching-d83885ead27eb2573d7218ca72eb198b.gif">
+    </div>
+
+    <div id="sidebar_content">
+      
+    </div>
+
+  </div>
+
+  <noscript>
+    &lt;div id="noscript"&gt;
+      &lt;p&gt;You are either using a browser that does not support JavaScript, or you have disabled JavaScript.&lt;/p&gt;
+      &lt;p&gt;OpenStreetMap uses JavaScript for its slippy map.&lt;/p&gt;
+    &lt;/div&gt;
+  </noscript>
+
+  <div id="map-ui">
+  <div class="layers-ui" style="display: none;"><div class="sidebar_heading"><span class="icon close">Close</span><h4>Map Layers</h4></div><div class="section base-layers"><ul><li class="active"><div class="leaflet-container leaflet-fade-anim" tabindex="0" style="position: relative;"><div class="leaflet-map-pane"><div class="leaflet-tile-pane"></div><div class="leaflet-objects-pane"><div class="leaflet-shadow-pane"></div><div class="leaflet-overlay-pane"></div><div class="leaflet-marker-pane"></div><div class="leaflet-popup-pane"></div></div></div><div class="leaflet-control-container"><div class="leaflet-top leaflet-left"></div><div class="leaflet-top leaflet-right"></div><div class="leaflet-bottom leaflet-left"></div><div class="leaflet-bottom leaflet-right"></div></div></div><label><input type="radio">Standard</label></li><li><div class="leaflet-container leaflet-fade-anim" tabindex="0" style="position: relative;"><div class="leaflet-map-pane"><div class="leaflet-tile-pane"></div><div class="leaflet-objects-pane"><div class="leaflet-shadow-pane"></div><div class="leaflet-overlay-pane"></div><div class="leaflet-marker-pane"></div><div class="leaflet-popup-pane"></div></div></div><div class="leaflet-control-container"><div class="leaflet-top leaflet-left"></div><div class="leaflet-top leaflet-right"></div><div class="leaflet-bottom leaflet-left"></div><div class="leaflet-bottom leaflet-right"></div></div></div><label><input type="radio">Cycle Map</label></li><li><div class="leaflet-container leaflet-fade-anim" tabindex="0" style="position: relative;"><div class="leaflet-map-pane"><div class="leaflet-tile-pane"></div><div class="leaflet-objects-pane"><div class="leaflet-shadow-pane"></div><div class="leaflet-overlay-pane"></div><div class="leaflet-marker-pane"></div><div class="leaflet-popup-pane"></div></div></div><div class="leaflet-control-container"><div class="leaflet-top leaflet-left"></div><div class="leaflet-top leaflet-right"></div><div class="leaflet-bottom leaflet-left"></div><div class="leaflet-bottom leaflet-right"></div></div></div><label><input type="radio">Transport Map</label></li><li><div class="leaflet-container leaflet-fade-anim" tabindex="0" style="position: relative;"><div class="leaflet-map-pane"><div class="leaflet-tile-pane"></div><div class="leaflet-objects-pane"><div class="leaflet-shadow-pane"></div><div class="leaflet-overlay-pane"></div><div class="leaflet-marker-pane"></div><div class="leaflet-popup-pane"></div></div></div><div class="leaflet-control-container"><div class="leaflet-top leaflet-left"></div><div class="leaflet-top leaflet-right"></div><div class="leaflet-bottom leaflet-left"></div><div class="leaflet-bottom leaflet-right"></div></div></div><label><input type="radio">MapQuest Open</label></li><li><div class="leaflet-container leaflet-fade-anim" tabindex="0" style="position: relative;"><div class="leaflet-map-pane"><div class="leaflet-tile-pane"></div><div class="leaflet-objects-pane"><div class="leaflet-shadow-pane"></div><div class="leaflet-overlay-pane"></div><div class="leaflet-marker-pane"></div><div class="leaflet-popup-pane"></div></div></div><div class="leaflet-control-container"><div class="leaflet-top leaflet-left"></div><div class="leaflet-top leaflet-right"></div><div class="leaflet-bottom leaflet-left"></div><div class="leaflet-bottom leaflet-right"></div></div></div><label><input type="radio">Humanitarian</label></li></ul></div><div class="section overlay-layers"><p class="deemphasize">Enable overlays for troubleshooting the map</p><ul><li data-original-title="" title="" class=""><label><input type="checkbox">Map Notes</label></li><li data-original-title="" title="" class=""><label><input type="checkbox">Map Data</label></li></ul></div></div><div class="key-ui" style="display: none;"><div class="sidebar_heading"><span class="icon close">Close</span><h4>Map Key</h4></div><div class="section"></div></div><div class="share-ui" style="display: none;"><div class="sidebar_heading"><span class="icon close">Close</span><h4>Share</h4></div><div class="section share-link"><h4>Link or HTML</h4><form class="standard-form"><div class="form-row"><label for="link_marker"><input id="link_marker" type="checkbox">Include marker</label></div><div class="share-tabs"><a class="active" for="long_input" id="long_link" href="./OpenStreetMap_files/OpenStreetMap.htm">Link</a><a for="short_input" id="short_link" href="http://osm.org/go/b~NxgjMLE--">Short Link</a><a for="embed_html" href="http://www.openstreetmap.org/#">HTML</a></div><div class="form-row share-tab" style="display: block;"><input id="long_input" type="text"></div><div class="form-row share-tab"><input id="short_input" type="text"></div><div class="form-row share-tab"><textarea id="embed_html"></textarea><p class="deemphasize">Paste HTML to embed in website</p></div></form></div><div class="section share-image"><h4>Image</h4><form class="standard-form" action="http://www.openstreetmap.org/export/finish" method="post"><div class="form-row"><label for="image_filter"><input id="image_filter" type="checkbox">Set custom dimensions</label></div><div class="form-row"><label for="mapnik_format">Format:</label><select name="mapnik_format" id="mapnik_format"><option value="png">PNG</option><option value="jpeg">JPEG</option><option value="svg">SVG</option><option value="pdf">PDF</option></select></div><div class="form-row"><label for="mapnik_scale">Scale:</label>1 : <input name="mapnik_scale" id="mapnik_scale" type="text"></div><input id="mapnik_minlon" name="minlon" type="hidden" value="-3.8185000419616695"><input id="mapnik_minlat" name="minlat" type="hidden" value="43.46117023433601"><input id="mapnik_maxlon" name="maxlon" type="hidden" value="-3.8134360313415527"><input id="mapnik_maxlat" name="maxlat" type="hidden" value="43.464401929730904"><input name="format" value="mapnik" type="hidden"><p class="deemphasize">Image will show standard layer at  <span id="mapnik_image_width">130</span> x <span id="mapnik_image_height">114</span></p><input type="submit" value="Download"></form></div></div></div>
+
+  <div id="map" tabindex="2" class="leaflet-container leaflet-fade-anim">
+  <div class="leaflet-map-pane" style="transform: translate3d(0px, -21px, 0px);"><div class="leaflet-tile-pane"><div class="leaflet-layer"><div class="leaflet-tile-container leaflet-zoom-animated"></div><div class="leaflet-tile-container leaflet-zoom-animated"><img class="leaflet-tile leaflet-tile-loaded" src="./OpenStreetMap_files/95861.png" style="height: 256px; width: 256px; left: 396px; top: 154px;"><img class="leaflet-tile leaflet-tile-loaded" src="./OpenStreetMap_files/95862.png" style="height: 256px; width: 256px; left: 396px; top: 410px;"><img class="leaflet-tile leaflet-tile-loaded" src="./OpenStreetMap_files/95861(1).png" style="height: 256px; width: 256px; left: 140px; top: 154px;"><img class="leaflet-tile leaflet-tile-loaded" src="./OpenStreetMap_files/95861(2).png" style="height: 256px; width: 256px; left: 652px; top: 154px;"><img class="leaflet-tile leaflet-tile-loaded" src="./OpenStreetMap_files/95862(1).png" style="height: 256px; width: 256px; left: 140px; top: 410px;"><img class="leaflet-tile leaflet-tile-loaded" src="./OpenStreetMap_files/95862(2).png" style="height: 256px; width: 256px; left: 652px; top: 410px;"><img class="leaflet-tile leaflet-tile-loaded" src="./OpenStreetMap_files/95863.png" style="height: 256px; width: 256px; left: 396px; top: 666px;"><img class="leaflet-tile leaflet-tile-loaded" src="./OpenStreetMap_files/95860.png" style="height: 256px; width: 256px; left: 396px; top: -102px;"><img class="leaflet-tile leaflet-tile-loaded" src="./OpenStreetMap_files/95860(1).png" style="height: 256px; width: 256px; left: 140px; top: -102px;"><img class="leaflet-tile leaflet-tile-loaded" src="./OpenStreetMap_files/95860(2).png" style="height: 256px; width: 256px; left: 652px; top: -102px;"><img class="leaflet-tile leaflet-tile-loaded" src="./OpenStreetMap_files/95863(1).png" style="height: 256px; width: 256px; left: 140px; top: 666px;"><img class="leaflet-tile leaflet-tile-loaded" src="./OpenStreetMap_files/95863(2).png" style="height: 256px; width: 256px; left: 652px; top: 666px;"><img class="leaflet-tile leaflet-tile-loaded" src="./OpenStreetMap_files/95862(3).png" style="height: 256px; width: 256px; left: 908px; top: 410px;"><img class="leaflet-tile leaflet-tile-loaded" src="./OpenStreetMap_files/95861(3).png" style="height: 256px; width: 256px; left: 908px; top: 154px;"><img class="leaflet-tile leaflet-tile-loaded" src="./OpenStreetMap_files/95861(4).png" style="height: 256px; width: 256px; left: -116px; top: 154px;"><img class="leaflet-tile leaflet-tile-loaded" src="./OpenStreetMap_files/95862(4).png" style="height: 256px; width: 256px; left: -116px; top: 410px;"><img class="leaflet-tile leaflet-tile-loaded" src="./OpenStreetMap_files/95860(3).png" style="height: 256px; width: 256px; left: -116px; top: -102px;"><img class="leaflet-tile leaflet-tile-loaded" src="./OpenStreetMap_files/95860(4).png" style="height: 256px; width: 256px; left: 908px; top: -102px;"><img class="leaflet-tile leaflet-tile-loaded" src="./OpenStreetMap_files/95863(3).png" style="height: 256px; width: 256px; left: -116px; top: 666px;"><img class="leaflet-tile leaflet-tile-loaded" src="./OpenStreetMap_files/95863(4).png" style="height: 256px; width: 256px; left: 908px; top: 666px;"></div></div></div><div class="leaflet-objects-pane"><div class="leaflet-shadow-pane"></div><div class="leaflet-overlay-pane"></div><div class="leaflet-marker-pane"></div><div class="leaflet-popup-pane"></div></div></div><div class="leaflet-control-container"><div class="leaflet-top leaflet-left"></div><div class="leaflet-top leaflet-right"><div class="zoom leaflet-control"><a class="control-button zoomin" href="http://www.openstreetmap.org/#" title="" data-original-title="Zoom In"><span class="icon zoomin"></span></a><a class="control-button zoomout" href="http://www.openstreetmap.org/#" title="" data-original-title="Zoom Out"><span class="icon zoomout"></span></a></div><div class="control-locate leaflet-control"><a class="control-button icon-location" href="http://www.openstreetmap.org/#" title="" data-original-title="Show My Location"><span class="icon geolocate"></span></a></div><div class="control-layers leaflet-control"><a class="control-button" href="http://www.openstreetmap.org/#" title="" data-original-title="Layers"><span class="icon layers"></span></a></div><div class="control-key leaflet-control"><a class="control-button" href="http://www.openstreetmap.org/#" data-original-title="Map Key"><span class="icon key"></span></a></div><div class="control-share leaflet-control"><a class="control-button" href="http://www.openstreetmap.org/#" title="" data-original-title="Share"><span class="icon share"></span></a></div><div class="control-note leaflet-control"><a class="control-button" href="http://www.openstreetmap.org/#" data-original-title="Add a note to the map"><span class="icon note"></span></a></div><div class="control-query leaflet-control"><a class="control-button" href="http://www.openstreetmap.org/#" data-original-title="Query features"><span class="icon query"></span></a></div></div><div class="leaflet-bottom leaflet-left"><div class="leaflet-control-scale leaflet-control"><div class="leaflet-control-scale-line" style="width: 59px;">30 m</div><div class="leaflet-control-scale-line" style="width: 60px;">100 ft</div></div></div><div class="leaflet-bottom leaflet-right"><div class="leaflet-control-attribution leaflet-control">© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap contributors</a> ♥ <a class="donate-attr" href="http://donate.openstreetmap.org/">Make a Donation</a></div></div></div></div>
+
+  <div id="attribution">
+    <table width="100%">
+      <tbody><tr>
+        <td class="attribution_license">http://openstreetmap.org/copyright</td>
+        <td class="attribution_project">http://openstreetmap.org</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="attribution_notice">Copyright OpenStreetMap and contributors, under an open license</td>
+      </tr>
+    </tbody></table>
+  </div>
+
+</div>
+
+    <noscript>&lt;p&gt;&lt;img src="http://piwik.openstreetmap.org/piwik.php?idsite=1" style="border:0" alt="" /&gt;&lt;/p&gt;</noscript>
+  
+
+
+</body></html>

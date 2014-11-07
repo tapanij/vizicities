@@ -131,11 +131,12 @@ function updateDialogs(event) {
 					var boxName = "some thing";
 					var boxDescription = "description";
 					var boxId = "9999";
-					city.webgl.scene.createBox(boxLongitude, boxLatitude, boxName, boxDescription, boxId);
+
+					var tileXY = city.grid.lonlat2tile(boxLongitude, boxLatitude, city.geo.tileZoom, true);
+					city.webgl.scene.createBox(tileXY[0], tileXY[1], boxName, boxDescription, boxId);
 				} else if (cb_xhr.status === 404) {
 					console.log("failed: " + cb_xhr.responseText);
 				}
-				debugger;
 			}
 		}
 
