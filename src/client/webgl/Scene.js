@@ -16,6 +16,7 @@ var cube;
 var proj;
 var pois = [];
 var dialogs = [];
+var globaali;
 
 var cb_xhr = null; // http request
 var BACKEND_ADDRESS_CB = "http://orion.lab.fi-ware.org:1026/ngsi10/contextEntities/";
@@ -102,22 +103,25 @@ function updateDialogs(event) {
 		document.addEventListener('mousemove', this.onDocumentMouseMove, false);
 		document.addEventListener('mouseup', this.onDocumentMouseUp, false);
 		document.addEventListener('mousewheel', updateDialogs, false);
-		this.createBox(0, 0, "test name", "test description", 398983);
+		// this.createBox(0, 0, "test name", "test description", 398983);
+		this.createBox(43.46323, -3.80882, "test name", "test description", 398983);
 
-
-		this.getCBInfo();
+		// this.getCBInfo(357);
+		// this.getCBInfo(3332);		 
+		// this.getCBInfo(10015);
+		// this.getCBInfo(10013);
 		
 
 	};
 
-	VIZI.Scene.prototype.getCBInfo = function() {
+	VIZI.Scene.prototype.getCBInfo = function(nodeID) {
 		function parseCBData(json) {
 		}
 		
 		console.log("Doing search from " + BACKEND_ADDRESS_CB);
-		var restQueryURL = BACKEND_ADDRESS_CB + "urn:smartsantander:testbed:357";
+		var restQueryURL = BACKEND_ADDRESS_CB + "urn:smartsantander:testbed:"+nodeID;
 		console.log("restQueryURL: " + restQueryURL);
-		cb_xhr = new XMLHttpRequest();
+		var cb_xhr = new XMLHttpRequest();
 
 		cb_xhr.onreadystatechange = function() {
 			if (cb_xhr.readyState === 4) {
@@ -132,8 +136,10 @@ function updateDialogs(event) {
 					var boxDescription = "description";
 					var boxId = "9999";
 
-					var tileXY = city.grid.lonlat2tile(boxLongitude, boxLatitude, city.geo.tileZoom, true);
-					city.webgl.scene.createBox(tileXY[0], tileXY[1], boxName, boxDescription, boxId);
+					// var tileXY = city.grid.lonlat2tile(boxLatitude, boxLongitude, city.geo.tileZoom, true);
+					// city.webgl.scene.createBox(tileXY[0], tileXY[1], boxName, boxDescription, boxId);
+
+					city.webgl.scene.createBox(boxLatitude, boxLongitude, boxName, boxDescription, boxId);
 				} else if (cb_xhr.status === 404) {
 					console.log("failed: " + cb_xhr.responseText);
 				}
@@ -241,11 +247,20 @@ function updateDialogs(event) {
 			color: 0x0FF6464
 		});
 		cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
-		cube.position.set(lon, 25, lat);
+		
 		cube.name = name;
 		cube.description = desc;
 		cube.uuid = uuid;
 		this.addToScene(cube);
+
+		// cube.position.set(lat, 25, lon);
+		var coord = [lon, lat];
+		var newPos = city.geo.projection(coord, city.geo.tileZoom);
+		cube.position.x = newPos[0];
+		cube.position.y = 25;
+		cube.position.z = newPos[1];	
+
+		globaali = cube;
 
 		// Name sprite
 		// var nameSprite = this.makeTextSprite(name, {

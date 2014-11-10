@@ -147,7 +147,7 @@ module.exports = function(grunt) {
 
 	// Default task(s).
 	// grunt.registerTask('default', ['jshint', 'concat', 'uglify', 'notify:finish']);
-	grunt.registerTask('default', ['jshint', 'concat', 'notify:finish']);
+	grunt.registerTask('default', ['concat', 'notify:finish']);
 
 	// Serve examples locally
 	grunt.registerTask('serve', ['connect']);
@@ -156,10 +156,10 @@ module.exports = function(grunt) {
 	grunt.registerTask('dev', ['default', 'notify:watch', 'watch']);
 
 	// Minify
-	grunt.registerTask('min', ['jshint', 'concat', 'uglify', 'notify:finish']);
+	grunt.registerTask('min', ['concat', 'uglify', 'notify:finish']);
 
 	// Run tests
-	grunt.registerTask('test', ['jshint', 'mocha_phantomjs']);
+	grunt.registerTask('test', ['mocha_phantomjs']);
 	
 	grunt.task.run('notify_hooks');
 };
