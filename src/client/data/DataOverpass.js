@@ -35,28 +35,29 @@
 			((VIZI.ENABLE_ROADS) ? "way({s},{w},{n},{e})[highway~%22motorway|trunk|primary|secondary|tertiary|residential|unclassified|service|motorway_link|primary_link|secondary_link|tertiary_link|residential_link|unclassified_link|service_link|road%22];" : "") +
 			");(._;node(w);););out;";
 
-		this.queryLow = "[out:json];" +
-			"((" +
-			"rel({s},{w},{n},{e})[waterway~%22.%22];" +
-			"rel({s},{w},{n},{e})[waterway=%22.%22][area=%22yes%22];" +
-			"rel({s},{w},{n},{e})[natural~%22.%22];" +
-			"rel({s},{w},{n},{e})[leisure~%22park.%22];" +
-			"rel({s},{w},{n},{e})[landuse~%22.%22];" +
-			");(._;way(r););(._;node(w););(" +
-			"way({s},{w},{n},{e})[waterway~%22.%22];" +
-			"way({s},{w},{n},{e})[waterway=%22.%22][area=%22yes%22];" +
-			"way({s},{w},{n},{e})[natural~%22.%22];" +
-			// "way({s},{w},{n},{e})[leisure~%22.%22];" + // don't load every leisure place, check the comment above at this.queryHigh 
-			"way({s},{w},{n},{e})[leisure~%22park|pitch%22];" +
-			"way({s},{w},{n},{e})[landuse~%22.%22];" +
-			");(._;node(w);););out;";
+		// Not used
+		// this.queryLow = "[out:json];" +
+		// 	"((" +
+		// 	"rel({s},{w},{n},{e})[waterway~%22.%22];" +
+		// 	"rel({s},{w},{n},{e})[waterway=%22.%22][area=%22yes%22];" +
+		// 	"rel({s},{w},{n},{e})[natural~%22.%22];" +
+		// 	"rel({s},{w},{n},{e})[leisure~%22park.%22];" +
+		// 	"rel({s},{w},{n},{e})[landuse~%22.%22];" +
+		// 	");(._;way(r););(._;node(w););(" +
+		// 	"way({s},{w},{n},{e})[waterway~%22.%22];" +
+		// 	"way({s},{w},{n},{e})[waterway=%22.%22][area=%22yes%22];" +
+		// 	"way({s},{w},{n},{e})[natural~%22.%22];" +
+		// 	// "way({s},{w},{n},{e})[leisure~%22.%22];" + // don't load every leisure place, check the comment above at this.queryHigh 
+		// 	"way({s},{w},{n},{e})[leisure~%22park|pitch%22];" +
+		// 	"way({s},{w},{n},{e})[landuse~%22.%22];" +
+		// 	");(._;node(w);););out;";
 
 		// URL of data source
 		this.urlBase = "http://overpass-api.de/api/interpreter?data=";
 		// this.urlBase = "http://overpass.osm.rambler.ru/cgi/interpreter?data=";
 		// this.urlBase = "http://api.openstreetmap.fr/oapi/interpreter?data=";
 		this.urlHigh = this.urlBase + this.queryHigh;
-		this.urlLow = this.urlBase + this.queryLow;
+		// this.urlLow = this.urlBase + this.queryLow;
 
 		if (options.gridUpdate) {
 			this.subscribe("gridUpdated", this.update);
