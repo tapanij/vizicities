@@ -29,6 +29,7 @@
 			"way({s},{w},{n},{e})[waterway~%22.%22];" +
 			"way({s},{w},{n},{e})[waterway=%22.%22][area=%22yes%22];" +
 			"way({s},{w},{n},{e})[natural~%22.%22];" +
+			"node({s},{w},{n},{e})[natural~%22tree%22];" +
 			// "way({s},{w},{n},{e})[leisure~%22.%22];" + // get leisure places http://wiki.openstreetmap.org/wiki/Leisure, caused errors and empty tiles near sensor 357: Uncaught TypeError: Cannot read property 'done' of undefined and log: "No features left to pass to worker"
 			"way({s},{w},{n},{e})[leisure~%22park|pitch%22];" + // original
 			"way({s},{w},{n},{e})[landuse~%22.%22];" +
@@ -264,7 +265,7 @@
 			// Find a way to do this without passing the node and way objects
 			switch (element.type) {
 				case "node":
-					self.processNode(nodes, element, project);
+					self.processNode(result, nodes, element, project);
 					break;
 				case "way":
 					self.processWay(result, ways, nodes, element, simple);
@@ -277,8 +278,31 @@
 		return result;
 	};
 
-	VIZI.DataOverpass.prototype.processNode = function(nodes, element, project) {
+	VIZI.DataOverpass.prototype.processNode = function(result, nodes, element, project) {
 		nodes[element.id] = (project === false) ? [element.lon, element.lat] : this.geo.projection([element.lon, element.lat]);
+
+		// Tree
+
+		var tags = element.tags || {};
+		if (tags["natural"] === "tree") {
+
+			// shortcut
+			city.webgl.scene.createBox(element.lat, element.lon, "tree", "simple tree", null);
+
+			// TODO correct way to do it:
+			// tags.height = this.processHeight(tags);
+			// tags.colour = this.processColour(tags);
+			// tags.roof = this.processRoof(tags);
+			// var tree = {
+			// 	id: element.id,
+			// 	coordinates: coordinates,
+			// 	properties: tags
+			// };
+			// if (self.isResult(way)) {
+			// 	way.coordinates = self.makeWinding(way.coordinates, self.clockwise);
+			// 	result.push(way);
+
+		}
 	};
 
 	// TODO: Validate polygon to make sure it's renderable (eg. complete, and no cross-overs)
@@ -509,7 +533,12 @@
 			// } else if (tags["waterway"] || tags["natural"] && /water|scrub/.test(tags["natural"]) || tags["leisure"] && /park|pitch/.test(tags["leisure"]) || tags["landuse"] && /grass|meadow|commercial|retail|industrial|brownfield/.test(tags["landuse"])) {
 		} else if (tags["waterway"] || tags["natural"] === "water") {
 			height = 4;
-		} else if (tags["natural"] === "wood" || tags["leisure"] && /park|pitch/.test(tags["leisure"]) || tags["landuse"] && /grass|meadow/.test(tags["landuse"]) || tags["aeroway"] === "runway") {
+		} 
+		// else if (tags["natural"] === "tree") {
+		// 	console.log("natural tree");
+		// 	height = 100;
+		// }
+		else if (tags["natural"] === "wood" || tags["leisure"] && /park|pitch/.test(tags["leisure"]) || tags["landuse"] && /grass|meadow/.test(tags["landuse"]) || tags["aeroway"] === "runway") {
 			height = 3;
 		} else if (tags["natural"] === "coastline") {
 			// console.table(tags);
@@ -596,7 +625,12 @@
 			colour = 0xeeeeee;
 		} else if (tags["aeroway"] === "runway") {
 			colour = 0x666666;
-		} else if (tags["natural"] === "coastline") {
+		} 
+		// else if (tags["natural"] === "tree") {
+		// 	console.log("natural tree color");
+		// 	colour = 0x669900; // green
+		// }
+		else if (tags["natural"] === "coastline") {
 			if (tags["description"] === "Mainland coastline") {
 				colour = 0x4acdff; // bleu
 			} else {

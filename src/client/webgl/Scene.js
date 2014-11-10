@@ -17,6 +17,7 @@ var proj;
 var pois = [];
 var dialogs = [];
 var globaali;
+var trees;
 
 var cb_xhr = null; // http request
 var BACKEND_ADDRESS_CB = "http://orion.lab.fi-ware.org:1026/ngsi10/contextEntities/";
@@ -243,15 +244,22 @@ function updateDialogs(event) {
 		console.log("createBox");
 
 		var cubeGeometry = new THREE.CubeGeometry(3, 50, 3);
+
+		var newColor = 0x0FF6464; // red
+
+		if(name == "tree"){
+			newColor = 0x669900; // green
+		}
+
 		var cubeMaterial = new THREE.MeshBasicMaterial({
-			color: 0x0FF6464
+			color: newColor
 		});
 		cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
 		
 		cube.name = name;
 		cube.description = desc;
 		cube.uuid = uuid;
-		this.addToScene(cube);
+		
 
 		// cube.position.set(lat, 25, lon);
 		var coord = [lon, lat];
@@ -281,11 +289,31 @@ function updateDialogs(event) {
 		// nameSprite.position.set(0, 35, 0);
 		// cube.add(nameSprite);
 
-		cube.index = pois.length;
-		pois.push(cube);
-		dialogs.push(undefined);
 
-		console.log("createBox end");
+
+		if (name == "tree") {
+			if (trees == undefined) {
+				trees = cube;
+				this.addToScene(trees);
+			} else {
+				// console.log("create combined tree mesh");
+
+				THREE.GeometryUtils.merge(trees.geometry, cube);
+
+				// offset
+				// var offset = THREE.GeometryUtils.center(trees.geometry);
+				// trees.position.x = -1 * offset[0];
+				// trees.position.z = -1 * offset[1];
+			}
+		} else {
+			cube.index = pois.length;
+			pois.push(cube);
+			dialogs.push(undefined);
+
+			this.addToScene(cube);
+		}
+
+		// console.log("createBox end");
 	};
 
 	VIZI.Scene.prototype.onDocumentMouseMove = function(event) {
