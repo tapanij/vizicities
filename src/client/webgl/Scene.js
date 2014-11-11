@@ -17,6 +17,7 @@ var proj;
 var pois = [];
 var dialogs = [];
 var globaali;
+var treeModel;
 var trees;
 var testest;
 
@@ -100,6 +101,11 @@ function updateDialogs(event) {
 
 		// POI
 
+		// Tree model
+		var jsonLoader = new THREE.JSONLoader();
+		// addModelToScene function is called back after model has loaded
+		jsonLoader.load("models/tree.js", this.loadTreeModel); 
+
 		// when the mouse moves, call the given function
 		proj = new THREE.Projector();
 		document.addEventListener('mousemove', this.onDocumentMouseMove, false);
@@ -113,7 +119,8 @@ function updateDialogs(event) {
 		// this.getCBInfo(10015);
 		// this.getCBInfo(10013);
 		
-
+		// fog
+		this.scene.fog.far = 6000;
 	};
 
 	VIZI.Scene.prototype.getCBInfo = function(nodeID) {
@@ -244,6 +251,7 @@ function updateDialogs(event) {
 	VIZI.Scene.prototype.createBox = function(lat, lon, name, desc, uuid) {
 		console.log("createBox");
 
+		// Cube
 		var cubeGeometry = new THREE.CubeGeometry(3, 50, 3);
 
 		var newColor = 0x0FF6464; // red
@@ -314,6 +322,42 @@ function updateDialogs(event) {
 
 		// console.log("createBox end");
 	};
+
+	VIZI.Scene.prototype.createTree = function(lat, lon, name, desc, uuid) {
+		console.log("createTree");
+
+		var treeClone = new THREE.Mesh(treeModel.geometry.clone(), treeModel.material.clone());
+
+		treeClone.name = name;
+		treeClone.description = desc;
+		treeClone.uuid = uuid;
+
+		var coord = [lon, lat];
+		var newPos = city.geo.projection(coord, city.geo.tileZoom);
+		treeClone.position.x = newPos[0];
+		treeClone.position.y = 0;
+		treeClone.position.z = newPos[1];
+
+		if (trees == undefined) {
+			trees = treeClone;
+			this.addToScene(trees);
+		} else {
+			// console.log("create combined tree mesh");
+
+			THREE.GeometryUtils.merge(trees.geometry, treeClone);
+
+			// Center trees
+			trees.position = new THREE.Vector3(0, 0, 0);
+		}
+
+	};
+
+	VIZI.Scene.prototype.loadTreeModel = function( geometry, materials ) {
+			console.log("load tree model");
+			var material = new THREE.MeshFaceMaterial(materials);
+			treeModel = new THREE.Mesh(geometry, material);
+			treeModel.scale.set(10, 10, 10);
+		};
 
 	VIZI.Scene.prototype.onDocumentMouseMove = function(event) {
 		// the following line would stop any other event handler from firing

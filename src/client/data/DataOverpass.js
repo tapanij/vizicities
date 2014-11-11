@@ -275,7 +275,7 @@
 			}
 		});
 
-	
+
 
 		return result;
 	};
@@ -289,7 +289,7 @@
 		if (tags["natural"] === "tree") {
 
 			// shortcut
-			city.webgl.scene.createBox(element.lat, element.lon, "tree", "simple tree", null);
+			city.webgl.scene.createTree(element.lat, element.lon, "tree", "simple tree", null);
 
 			// TODO correct way to do it:
 			// tags.height = this.processHeight(tags);
@@ -531,7 +531,7 @@
 		} else if (tags["building"]) {
 			height = 10 + Math.random() * 10;
 		} else if (tags["landuse"] === "forest") {
-			height = 7;
+			height = 0.3;
 			// } else if (tags["waterway"] || tags["natural"] && /water|scrub/.test(tags["natural"]) || tags["leisure"] && /park|pitch/.test(tags["leisure"]) || tags["landuse"] && /grass|meadow|commercial|retail|industrial|brownfield/.test(tags["landuse"])) {
 		} else if (tags["waterway"] || tags["natural"] === "water") {
 			height = 4;
@@ -541,7 +541,7 @@
 		// 	height = 100;
 		// }
 		else if (tags["natural"] === "wood" || tags["leisure"] && /park|pitch/.test(tags["leisure"]) || tags["landuse"] && /grass|meadow/.test(tags["landuse"]) || tags["aeroway"] === "runway") {
-			height = 3;
+			height = 0.3;
 		} else if (tags["natural"] === "coastline") {
 			// console.table(tags);
 			// if (tags["description"] === "Mainland coastline") {
