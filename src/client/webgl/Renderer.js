@@ -33,7 +33,7 @@
 		renderer.physicallyBasedShading = true;
 
 		renderer.shadowMapEnabled = true;
-		renderer.shadowMapSoft = true;
+		renderer.shadowMapSoft = false;
 
 		this.domContainer.appendChild(renderer.domElement);
 

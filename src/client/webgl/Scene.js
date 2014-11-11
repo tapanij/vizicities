@@ -277,8 +277,6 @@ function updateDialogs(event) {
 		cube.position.y = 25;
 		cube.position.z = newPos[1];	
 
-		globaali = cube;
-
 		// Name sprite
 		// var nameSprite = this.makeTextSprite(name, {
 		// 	fontsize: 12,
@@ -328,6 +326,7 @@ function updateDialogs(event) {
 
 		var treeClone = new THREE.Mesh(treeModel.geometry.clone(), treeModel.material.clone());
 
+
 		treeClone.name = name;
 		treeClone.description = desc;
 		treeClone.uuid = uuid;
@@ -342,6 +341,18 @@ function updateDialogs(event) {
 			trees = treeClone;
 			this.addToScene(trees);
 		} else {
+			// Rotation
+			var max = 6;
+			var min = 0;
+			var randomValue = Math.random() * (max - min) + min;
+			treeClone.rotateY(randomValue);
+
+			// Scale
+			max = 2;
+			min = 0.8;
+			randomValue = Math.random() * (max - min) + min;
+			treeClone.scale.set(randomValue, randomValue, randomValue);
+
 			// console.log("create combined tree mesh");
 
 			THREE.GeometryUtils.merge(trees.geometry, treeClone);
@@ -441,6 +452,8 @@ function updateDialogs(event) {
 	};
 
 	VIZI.Scene.prototype.addToScene = function(object) {
+		object.receiveShadow = true;
+		object.castShadow = true;
 		this.scene.add(object);
 		this.objects.push(object);
 	};
