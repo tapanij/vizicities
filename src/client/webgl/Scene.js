@@ -18,6 +18,7 @@ var pois = [];
 var dialogs = [];
 var globaali;
 var trees;
+var testest;
 
 var cb_xhr = null; // http request
 var BACKEND_ADDRESS_CB = "http://orion.lab.fi-ware.org:1026/ngsi10/contextEntities/";
@@ -300,10 +301,8 @@ function updateDialogs(event) {
 
 				THREE.GeometryUtils.merge(trees.geometry, cube);
 
-				// offset
-				// var offset = THREE.GeometryUtils.center(trees.geometry);
-				// trees.position.x = -1 * offset[0];
-				// trees.position.z = -1 * offset[1];
+				// Center trees
+				trees.position = new THREE.Vector3(0,0,0);
 			}
 		} else {
 			cube.index = pois.length;
