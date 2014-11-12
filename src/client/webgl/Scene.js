@@ -21,6 +21,9 @@ var treeModel;
 var trees;
 var testest;
 
+// Water
+var verticalMirror;
+
 var cb_xhr = null; // http request
 var BACKEND_ADDRESS_CB = "http://orion.lab.fi-ware.org:1026/ngsi10/contextEntities/";
 
@@ -121,6 +124,28 @@ function updateDialogs(event) {
 		
 		// fog
 		this.scene.fog.far = 6000;
+
+		// MIRORR plane
+		verticalMirror = new THREE.FlatMirror(city.webgl.renderer.renderer, camera, {
+			clipBias: 0.003,
+			textureWidth: 800,
+			textureHeight: 600,
+			color: 0x333366,
+			baseTexture: THREE.ImageUtils.loadTexture("images/water.jpg"),
+			baseSpeed: 1.15,
+			// noiseTexture: noiseTexture,
+			noiseScale: 0.2,
+			alpha: 0.8,
+			time: 0.0,
+		});
+
+		this.verticalMirrorMesh = new THREE.Mesh(
+			new THREE.PlaneGeometry(400, 400, 100, 100),
+			verticalMirror.material);
+		verticalMirrorMesh.add(verticalMirror);
+		// verticalMirror.material.side = THREE.DoubleSide;
+		verticalMirrorMesh.position.set(0, 100, -100);
+		this.addToScene(verticalMirrorMesh);
 	};
 
 	VIZI.Scene.prototype.getCBInfo = function(nodeID) {
