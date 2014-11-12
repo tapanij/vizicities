@@ -20,6 +20,17 @@ var globaali;
 var treeModel;
 var trees;
 var testest;
+var treeLimit = 1200;
+var treeAmount = 0;
+var globalMaterial = new THREE.MeshLambertMaterial({
+      vertexColors: THREE.VertexColors,
+      // ambient: 0xffffff,
+      // emissive: 0xcccccc,
+      shading: THREE.FlatShading,
+      // transparent: true,
+      // wireframe: true,
+      color: 0xb9ffba // used if no vertexColors available?
+    });
 
 var cb_xhr = null; // http request
 var BACKEND_ADDRESS_CB = "http://orion.lab.fi-ware.org:1026/ngsi10/contextEntities/";
@@ -90,6 +101,12 @@ function updateDialogs(event) {
 			VIZI.Log("Scene add object handler");
 			VIZI.Log(object);
 			this.addToScene(object);
+		});
+
+		this.subscribe("addLightToScene", function(object) {
+			VIZI.Log("Scene add object handler");
+			VIZI.Log(object);
+			this.addLightToScene(object);
 		});
 
 		this.subscribe("removeFromScene", function(object) {
@@ -322,6 +339,10 @@ function updateDialogs(event) {
 	};
 
 	VIZI.Scene.prototype.createTree = function(lat, lon, name, desc, uuid) {
+		if(treeAmount >= treeLimit){
+			return;
+		}
+
 		console.log("createTree");
 
 		var treeClone = new THREE.Mesh(treeModel.geometry.clone(), treeModel.material.clone());
@@ -361,6 +382,8 @@ function updateDialogs(event) {
 			trees.position = new THREE.Vector3(0, 0, 0);
 		}
 
+
+		treeAmount++;
 	};
 
 	VIZI.Scene.prototype.loadTreeModel = function( geometry, materials ) {
@@ -449,6 +472,11 @@ function updateDialogs(event) {
 		scene.fog = new THREE.Fog(0xffffff, 1, 40000);
 
 		return scene;
+	};
+
+	VIZI.Scene.prototype.addLightToScene = function(object) {
+		this.scene.add(object);
+		this.objects.push(object);
 	};
 
 	VIZI.Scene.prototype.addToScene = function(object) {

@@ -25,7 +25,8 @@
 
 		// var floorGeom = new THREE.PlaneGeometry(40000, 40000, 4, 4);
 		var floorGeom = new THREE.CircleGeometry(20000, 32);
-		var floorMat = new THREE.MeshBasicMaterial({color: 0xb9ffba});
+		// var floorMat = new THREE.MeshBasicMaterial({color: 0xb9ffba});
+		var floorMat = globalMaterial;
 		var floor = new THREE.Mesh(floorGeom, floorMat);
 		globaali = floor;
 		floor.receiveShadow = true;

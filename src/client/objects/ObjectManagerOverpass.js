@@ -417,13 +417,7 @@
     }
 
     var loader = new THREE.JSONLoader();
-    var material = new THREE.MeshLambertMaterial({
-      vertexColors: THREE.VertexColors,
-      ambient: 0xffffff,
-      emissive: 0xcccccc,
-      shading: THREE.FlatShading,
-      transparent: true
-    });
+    var material = globalMaterial;
 
     var self = this;
 

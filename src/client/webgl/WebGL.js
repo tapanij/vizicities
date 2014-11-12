@@ -82,18 +82,25 @@
 		directionalLight2.shadowCameraBottom = -2500;
 
 		this.lights.push(directionalLight2);
-		this.publish("addToScene", directionalLight2);
+		this.publish("addLightToScene", directionalLight2);
 
 		// var helper2 = new THREE.DirectionalLightHelper(directionalLight2, 50);
 		// this.publish("addToScene", helper2);
 
-		// var hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 0.65 );
-		// THREE.ColorConverter.setHSV( hemiLight.color, 0.6, 0.35, 0.7 );
-		// THREE.ColorConverter.setHSV( hemiLight.groundColor, 0.095, 0.5, 0.6 );
-		// hemiLight.position.set( 0, 600, 0 );
+// var hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 0.65 );
+// 		THREE.ColorConverter.setHSV( hemiLight.color, 0.6, 0.35, 0.7 );
+// 		THREE.ColorConverter.setHSV( hemiLight.groundColor, 0.095, 0.5, 0.6 );
+// 		hemiLight.position.set( 0, 600, 0 );
 
-		// this.lights.push(hemiLight);
-		// this.publish("addToScene", hemiLight);
+		var hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 0.6);
+		hemiLight.color.setHSL(0.6, 1, 0.6);
+		hemiLight.groundColor.setHSL(0.095, 1, 0.75);
+		hemiLight.position.set(0, 500, 0);
+
+		hemiLight.castShadow = false;
+
+		this.lights.push(hemiLight);
+		this.publish("addLightToScene", hemiLight);
 	};
 
 	// Global helpers (move elsewhere?)
