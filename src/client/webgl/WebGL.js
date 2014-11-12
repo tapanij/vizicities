@@ -24,6 +24,28 @@
 		this.lights = [];
 		this.addLights();
 
+		// MIRORR plane
+		verticalMirror = new THREE.FlatMirror(this.renderer.renderer, this.camera.camera, {
+			clipBias: 0.003,
+			textureWidth: 800,
+			textureHeight: 600,
+			color: 0x333366,
+			// baseTexture: THREE.ImageUtils.loadTexture("images/water.jpg"),
+			baseSpeed: 1.15,
+			// noiseTexture: noiseTexture,
+			noiseScale: 0.2,
+			alpha: 0.8,
+			time: 0.0,
+		});
+
+		this.verticalMirrorMesh = new THREE.Mesh(
+			new THREE.PlaneGeometry(400, 400, 100, 100),
+			verticalMirror.material);
+		this.verticalMirrorMesh.add(verticalMirror);
+		// verticalMirror.material.side = THREE.DoubleSide;
+		this.verticalMirrorMesh.position.set(0, 100, -100);
+		this.scene.addToScene(this.verticalMirrorMesh);
+
 		return Q.fcall(function() {});
 	};
 

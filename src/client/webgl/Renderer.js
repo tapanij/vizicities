@@ -45,6 +45,8 @@
 		this.renderer.render( this.scene, this.camera );
 		this.publish("updateRendererInfo", this.renderer.info);
 		this.publish("fpsTickEnd", "render");
+
+		verticalMirror.render();
 	};
 
 	VIZI.Renderer.prototype.resize = function() {
