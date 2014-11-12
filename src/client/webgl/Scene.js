@@ -18,6 +18,13 @@ var pois = [];
 var dialogs = [];
 var globaali;
 var treeModel;
+
+// Water
+var waterGeometry;
+var waterMesh;
+var worldWidth = 128, worldDepth = 128, worldHalfWidth = worldWidth / 2, worldHalfDepth = worldDepth / 2;
+var clock = new THREE.Clock();
+
 var trees;
 var testest;
 
@@ -121,6 +128,9 @@ function updateDialogs(event) {
 		
 		// fog
 		this.scene.fog.far = 6000;
+
+		// WATER
+		this.createWater();
 	};
 
 	VIZI.Scene.prototype.getCBInfo = function(nodeID) {
@@ -247,6 +257,39 @@ function updateDialogs(event) {
 		sprite.scale.set(100, 50, 1.0);
 		return sprite;
 	};
+
+
+	VIZI.Scene.prototype.createWater = function() {
+		waterGeometry = new THREE.PlaneGeometry(20000, 20000, worldWidth - 1, worldDepth - 1);
+		waterGeometry.applyMatrix(new THREE.Matrix4().makeRotationX(-Math.PI / 2));
+
+		var i, j, il, jl;
+
+		for (i = 0, il = waterGeometry.vertices.length; i < il; i++) {
+
+			waterGeometry.vertices[i].y = 3.5 * Math.sin(i / 2);
+
+		}
+
+		//console.log( "triangles: " + waterGeometry.faces.length * 2 + " faces: " + waterGeometry.faces.length + " vertices: " + waterGeometry.vertices.length );
+
+		waterGeometry.computeFaceNormals();
+		waterGeometry.computeVertexNormals();
+
+		// var texture = THREE.ImageUtils.loadTexture("textures/water.jpg");
+		// texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+		// texture.repeat.set(5, 5);
+
+		var material = new THREE.MeshBasicMaterial({
+			color: 0x0044ff,
+			wireframe: true
+		});
+
+		waterMesh = new THREE.Mesh(waterGeometry, material);
+		waterMesh.position.y = 4;
+		this.addToScene(waterMesh);
+	};
+
 
 	VIZI.Scene.prototype.createBox = function(lat, lon, name, desc, uuid) {
 		console.log("createBox");

@@ -41,6 +41,23 @@
 	};
 
 	VIZI.Renderer.prototype.render = function() {
+		// Water
+		if (waterGeometry) {
+			var delta = clock.getDelta(),
+				time = clock.getElapsedTime() * 10;
+
+			for (var i = 0, l = waterGeometry.vertices.length; i < l; i++) {
+
+				waterGeometry.vertices[i].y = 35 * Math.sin(i / 5 + (time + i) / 7);
+
+			}
+
+			//geometry.computeFaceNormals();
+			//geometry.computeVertexNormals();
+
+			waterMesh.geometry.verticesNeedUpdate = true;
+		}
+
 		this.publish("fpsTickStart", "render");
 		this.renderer.render( this.scene, this.camera );
 		this.publish("updateRendererInfo", this.renderer.info);
