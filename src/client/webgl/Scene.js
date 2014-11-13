@@ -401,7 +401,6 @@ function updateDialogs(event) {
 		var max = 2;
 		var min = 0;
 		var randomTree =  Math.floor(Math.random() * (max - min + 1)) + min;
-		console.log("random tree: " + randomTree);
 
 		var treeClone;
 		if(randomTree === 0){

@@ -28,11 +28,13 @@
 			"way({s},{w},{n},{e})[aeroway~%22.%22];" +
 			"way({s},{w},{n},{e})[waterway~%22.%22];" +
 			"way({s},{w},{n},{e})[waterway=%22.%22][area=%22yes%22];" +
-			"way({s},{w},{n},{e})[natural~%22.%22];" +
+			// "way({s},{w},{n},{e})[natural~%22.%22];" + // e.g. coastline tags["natural"] === "coastline"
+			"way({s},{w},{n},{e})[natural~%22water%22];" +
+			"way({s},{w},{n},{e})[natural~%22beach%22];" +
 			"node({s},{w},{n},{e})[natural~%22tree%22];" +
 			// "way({s},{w},{n},{e})[leisure~%22.%22];" + // get leisure places http://wiki.openstreetmap.org/wiki/Leisure, caused errors and empty tiles near sensor 357: Uncaught TypeError: Cannot read property 'done' of undefined and log: "No features left to pass to worker"
 			"way({s},{w},{n},{e})[leisure~%22park|pitch%22];" + // original
-			"way({s},{w},{n},{e})[landuse~%22.%22];" +
+			// "way({s},{w},{n},{e})[landuse~%22.%22];" +
 			((VIZI.ENABLE_ROADS) ? "way({s},{w},{n},{e})[highway~%22motorway|trunk|primary|secondary|tertiary|residential|unclassified|service|motorway_link|primary_link|secondary_link|tertiary_link|residential_link|unclassified_link|service_link|road%22];" : "") +
 			");(._;node(w);););out;";
 
@@ -530,7 +532,9 @@
 			height = tags["building:levels"] * this.METERS_PER_LEVEL * scalingFactor << 0;
 		} else if (tags["building"]) {
 			height = 10 + Math.random() * 10;
-		} else if (tags["landuse"] === "forest") {
+		}else if (tags["natural"] === "beach") {
+			height = 0.3;
+		}else if (tags["landuse"] === "forest") {
 			height = 0.3;
 			// } else if (tags["waterway"] || tags["natural"] && /water|scrub/.test(tags["natural"]) || tags["leisure"] && /park|pitch/.test(tags["leisure"]) || tags["landuse"] && /grass|meadow|commercial|retail|industrial|brownfield/.test(tags["landuse"])) {
 		} else if (tags["waterway"] || tags["natural"] === "water") {
@@ -613,7 +617,10 @@
 			colour = 0xce950e;
 		} else if (tags["waterway"] || tags["natural"] === "water") {
 			colour = 0x6DCCFF;
-		} else if (tags["landuse"] === "forest") {
+} else if (tags["natural"] === "beach") {
+			colour = 0xFFD700; // sand
+		}
+		else if (tags["landuse"] === "forest") {
 			// console.log("landuse forest");
 			// console.table(tags);
 			colour = 0x7ea410;
@@ -654,7 +661,9 @@
 			}
 			colour = color;
 
-			// colour = 0xFF0000;
+			colour = 0xFF0000;
+
+			
 		}
 
 		return colour;
