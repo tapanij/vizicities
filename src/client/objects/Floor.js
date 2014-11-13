@@ -28,7 +28,6 @@
 		// var floorMat = new THREE.MeshBasicMaterial({color: 0xb9ffba});
 		var floorMat = globalMaterial;
 		var floor = new THREE.Mesh(floorGeom, floorMat);
-		globaali = floor;
 		floor.receiveShadow = true;
 		floor.position.y = -0.4;
 		floor.rotation.x = - 90 * Math.PI / 180;

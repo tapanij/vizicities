@@ -214,7 +214,7 @@ function updateDialogs(event) {
 			// objToString(json[i].data);
 			var boxId = i;
 
-			city.webgl.scene.createBox(boxLatitude, boxLongitude, boxName, boxDescription, boxId);
+			city.webgl.scene.createSphere(boxLatitude, boxLongitude, boxName, boxDescription, boxId);
 		}
 
 		// THERMOMETERS
@@ -317,6 +317,41 @@ function updateDialogs(event) {
 		sprite.scale.set(100, 50, 1.0);
 		return sprite;
 	};
+
+	VIZI.Scene.prototype.createSphere = function(lat, lon, name, desc, uuid) {
+		console.log("createSphere");
+
+		var sphereGeometry = new THREE.SphereGeometry(5, 8, 8); // Radius size, number of vertical segments, number of horizontal rings.
+
+		var newColor = 0x0FF6464; // red
+
+		if(name == "tree"){
+			newColor = 0x669900; // green
+		}
+
+		var sphereMaterial = new THREE.MeshBasicMaterial({
+			color: newColor
+		});
+		var sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+		
+		sphere.name = name;
+		sphere.description = desc;
+		sphere.uuid = uuid;
+		
+
+		// sphere.position.set(lat, 25, lon);
+		var coord = [lon, lat];
+		var newPos = city.geo.projection(coord, city.geo.tileZoom);
+		sphere.position.x = newPos[0];
+		sphere.position.y = 10;
+		sphere.position.z = newPos[1];
+
+		sphere.index = pois.length;
+		pois.push(sphere);
+		dialogs.push(undefined);
+
+		this.addToScene(sphere);
+	};	
 
 	VIZI.Scene.prototype.createBox = function(lat, lon, name, desc, uuid) {
 		console.log("createBox");
