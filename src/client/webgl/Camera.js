@@ -35,7 +35,7 @@ var camera;
 	VIZI.Camera.prototype.createCamera = function() {
 		VIZI.Log("Creating WebGL camera");
 
-		camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 100, 40000 );
+		camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 30, 40000 );
 		this.updatePosition(camera);
 
 		return camera;
