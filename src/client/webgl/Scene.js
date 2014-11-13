@@ -56,7 +56,7 @@ function setDialogPosition(i) {
 	var x, y, p, v, percX, percY;
 
 	// this will give us position relative to the world
-	p = new THREE.Vector3(pois[i].position.x, pois[i].position.y + (pois[i].geometry.height / 2), pois[i].position.z);
+	p = new THREE.Vector3(pois[i].position.x, pois[i].position.y /* + (pois[i].geometry.height / 2) */, pois[i].position.z);
 
 	// projectVector will translate position to 2d
 	projector = new THREE.Projector();
@@ -343,7 +343,7 @@ function updateDialogs(event) {
 		var coord = [lon, lat];
 		var newPos = city.geo.projection(coord, city.geo.tileZoom);
 		sphere.position.x = newPos[0];
-		sphere.position.y = 10;
+		sphere.position.y = 50;
 		sphere.position.z = newPos[1];
 
 		sphere.index = pois.length;
