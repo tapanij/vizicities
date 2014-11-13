@@ -198,19 +198,9 @@ function updateDialogs(event) {
 	VIZI.Scene.prototype.parseOfflineCBData = function(json) {
 		console.log(json);
 
-		function objToString(obj) {
-			var str = '';
-			for (var p in obj) {
-				if (obj.hasOwnProperty(p)) {
-					str += p + '::' + obj[p] + '\n';
-				}
-			}
-			return str;
-		}
-
-		for (var i = 0; i < 10020; i++) {
+		function createSensor(i) {
 			if(json[i] == undefined){
-				continue;
+				return;
 			}
 			var boxLongitude = json[i].geopos[1];
 			var boxLatitude = json[i].geopos[0];
@@ -223,6 +213,24 @@ function updateDialogs(event) {
 			var boxId = i;
 
 			city.webgl.scene.createBox(boxLatitude, boxLongitude, boxName, boxDescription, boxId);
+		}
+
+		// THERMOMETERS
+		createSensor(88);
+		createSensor(39);
+		createSensor(51);
+		createSensor(79);
+		createSensor(82);
+		createSensor(81);
+		createSensor(80);
+		createSensor(94);
+		createSensor(78);
+		createSensor(7);
+		createSensor(70);
+
+		// LAMPS
+		for (var i = 10000; i <= 10015; i++) {
+			createSensor(i);
 		}
 	};
 
