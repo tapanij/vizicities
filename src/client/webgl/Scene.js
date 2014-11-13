@@ -17,7 +17,7 @@ var proj;
 var pois = [];
 var dialogs = [];
 var globaali;
-var treeModel;
+var treeModel, treeModelB, treeModelC;
 var trees;
 var testest;
 var treeLimit = 1200;
@@ -122,6 +122,8 @@ function updateDialogs(event) {
 		var jsonLoader = new THREE.JSONLoader();
 		// addModelToScene function is called back after model has loaded
 		jsonLoader.load("models/tree.js", this.loadTreeModel); 
+		jsonLoader.load("models/tree2.js", this.loadTreeModel); 
+		jsonLoader.load("models/tree3.js", this.loadTreeModel); 
 
 		// when the mouse moves, call the given function
 		proj = new THREE.Projector();
@@ -396,8 +398,19 @@ function updateDialogs(event) {
 
 		console.log("createTree");
 
-		var treeClone = new THREE.Mesh(treeModel.geometry.clone(), treeModel.material.clone());
+		var max = 2;
+		var min = 0;
+		var randomTree =  Math.floor(Math.random() * (max - min + 1)) + min;
+		console.log("random tree: " + randomTree);
 
+		var treeClone;
+		if(randomTree === 0){
+			treeClone = new THREE.Mesh(treeModel.geometry.clone(), treeModel.material.clone());
+		} else if(randomTree === 1){
+			treeClone = new THREE.Mesh(treeModelB.geometry.clone(), treeModelB.material.clone());
+		} else if(randomTree === 2){
+			treeClone = new THREE.Mesh(treeModelC.geometry.clone(), treeModelC.material.clone());
+		}
 
 		treeClone.name = name;
 		treeClone.description = desc;
@@ -419,11 +432,11 @@ function updateDialogs(event) {
 			var randomValue = Math.random() * (max - min) + min;
 			treeClone.rotateY(randomValue);
 
-			// Scale
-			max = 2;
-			min = 0.8;
-			randomValue = Math.random() * (max - min) + min;
-			treeClone.scale.set(randomValue, randomValue, randomValue);
+			// // Scale
+			// max = 2;
+			// min = 0.8;
+			// randomValue = Math.random() * (max - min) + min;
+			// treeClone.scale.set(randomValue, randomValue, randomValue);
 
 			// console.log("create combined tree mesh");
 
@@ -437,12 +450,21 @@ function updateDialogs(event) {
 		treeAmount++;
 	};
 
-	VIZI.Scene.prototype.loadTreeModel = function( geometry, materials ) {
-			console.log("load tree model");
-			var material = new THREE.MeshFaceMaterial(materials);
+	VIZI.Scene.prototype.loadTreeModel = function(geometry, materials) {
+		console.log("load tree model");
+		var material = new THREE.MeshFaceMaterial(materials);
+
+		if (treeModel == undefined) {
 			treeModel = new THREE.Mesh(geometry, material);
 			treeModel.scale.set(10, 10, 10);
-		};
+		} else if (treeModelB == undefined) {
+			treeModelB = new THREE.Mesh(geometry, material);
+			treeModelB.scale.set(10, 10, 10);
+		} else if (treeModelC == undefined) {
+			treeModelC = new THREE.Mesh(geometry, material);
+			treeModelC.scale.set(10, 10, 10);
+		} 
+	};
 
 	VIZI.Scene.prototype.onDocumentMouseMove = function(event) {
 		// the following line would stop any other event handler from firing
