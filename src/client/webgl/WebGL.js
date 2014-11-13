@@ -62,8 +62,9 @@
 		// var helper1 = new THREE.DirectionalLightHelper(directionalLight, 50);
 		// this.publish("addToScene", helper1);
 
-		var directionalLight2 = new THREE.DirectionalLight( 0x999999 );
-		directionalLight2.intesity = 0.1;
+		var highNoonSun = 0xFFFFFB;
+		var directionalLight2 = new THREE.DirectionalLight( highNoonSun );
+		directionalLight2.intesity = 1;
 		// THREE.ColorConverter.setHSV( directionalLight2.color, 0.1, 0.1, 0.5 );
 		directionalLight2.position.x = -1000;
 		directionalLight2.position.y = 1300;
