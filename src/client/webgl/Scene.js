@@ -206,15 +206,27 @@ function updateDialogs(event) {
 			}
 			var boxLongitude = json[i].geopos[1];
 			var boxLatitude = json[i].geopos[0];
-			var boxName = "Sensor";
+			var boxName;
 			var boxDescription = [];
+			var customValue;
 			for (var variable in json[i].data) {
 				boxDescription.push(variable + ": " + json[i].data[variable]);
+				if(variable == "Light"){
+					console.log("is light");
+					boxName = "Light";
+					customValue = parseInt(json[i].data[variable], 10);
+				} else {
+					boxName = "Sensor";
+				}
 			}
 			// objToString(json[i].data);
 			var boxId = i;
 
-			city.webgl.scene.createSphere(boxLatitude, boxLongitude, boxName, boxDescription, boxId);
+			if (boxName == "Light") {
+				city.webgl.scene.createSphere(boxLatitude, boxLongitude, boxName, boxDescription, boxId, customValue);
+			} else {
+				city.webgl.scene.createBox(boxLatitude, boxLongitude, boxName, boxDescription, boxId);
+			}
 		}
 
 		// THERMOMETERS
@@ -318,15 +330,53 @@ function updateDialogs(event) {
 		return sprite;
 	};
 
-	VIZI.Scene.prototype.createSphere = function(lat, lon, name, desc, uuid) {
-		console.log("createSphere");
+	VIZI.Scene.prototype.createSphere = function(lat, lon, name, desc, uuid, customValue) {
+		function lerpFunc(a, b, t) {
+			return a + (b - a) * t;
+		}
+
+		function componentToHex(c) {
+			var hex = c.toString(16);
+			return hex.length == 1 ? "0" + hex : hex;
+		}
+
+		function rgbToHex(r, g, b) {
+			return componentToHex(r) + componentToHex(g) + componentToHex(b);
+		}
 
 		var sphereGeometry = new THREE.SphereGeometry(5, 8, 8); // Radius size, number of vertical segments, number of horizontal rings.
 
 		var newColor = 0x0FF6464; // red
 
-		if(name == "tree"){
-			newColor = 0x669900; // green
+
+		if(name == "Light"){
+			
+			0.0001 lux		Moonless, overcast night sky (starlight)[3]
+			0.002 lux		Moonless clear night sky with airglow[3]
+			0.27–1.0 lux	Full moon on a clear night[3][4]
+			3.4 lux			Dark limit of civil twilight under a clear sky[5]
+			50 lux			Family living room lights (Australia, 1998)[6]
+			80 lux			Office building hallway/toilet lighting[7][8]
+			100 lux			Very dark overcast day[3]
+			320–500 		lux	Office lighting[9][10][11]
+			400 lux			Sunrise or sunset on a clear day.
+			1000 lux		Overcast day;[3] typical TV studio lighting
+			10000–25000 	lux	Full daylight (not direct sun)[3]
+			32000–100000 	lux	Direct sunlight
+			
+
+
+
+			// Lux between 0-500
+			var lux = customValue / 500; // lux between 0 and 1
+
+			var rgbValue = lerpFunc(0, 255, lux);
+
+			var hexValue = rgbToHex(rgbValue, rgbValue, rgbValue);
+
+			newColor = "0x"+hexValue;
+
+			console.log("hex value: " + newColor);
 		}
 
 		var sphereMaterial = new THREE.MeshBasicMaterial({
