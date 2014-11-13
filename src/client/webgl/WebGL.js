@@ -72,7 +72,7 @@
 		directionalLight2.shadowMapWidth = 4096;
 		directionalLight2.shadowMapHeight = 4096;
 		directionalLight2.shadowDarkness = 0.5;
-		directionalLight2.shadowCameraVisible = true;
+		directionalLight2.shadowCameraVisible = false;
 		directionalLight2.target.position.x = -500;
 		directionalLight2.target.position.y = 0;
 		directionalLight2.target.position.z = -2500;

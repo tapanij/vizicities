@@ -129,12 +129,19 @@ function updateDialogs(event) {
 		document.addEventListener('mouseup', this.onDocumentMouseUp, false);
 		document.addEventListener('mousewheel', updateDialogs, false);
 		// this.createBox(0, 0, "test name", "test description", 398983);
-		this.createBox(43.46323, -3.80882, "test name", "test description", 398983);
+		// this.createBox(43.46323, -3.80882, "test name", "test description", 398983);
 
+		// Get online Context Broker info
 		// this.getCBInfo(357);
 		// this.getCBInfo(3332);		 
 		// this.getCBInfo(10015);
 		// this.getCBInfo(10013);
+
+		// Get offline Context Broker info
+		var sceneScope = this;
+		$.getJSON("nodeinfo.json", function(data) {
+			sceneScope.parseOfflineCBData(data);
+		});
 		
 		// fog
 		this.scene.fog.far = 6000;
@@ -149,23 +156,14 @@ function updateDialogs(event) {
 		console.log("restQueryURL: " + restQueryURL);
 		var cb_xhr = new XMLHttpRequest();
 
+		var sceneScope = this;
+
 		cb_xhr.onreadystatechange = function() {
 			if (cb_xhr.readyState === 4) {
 				if (cb_xhr.status === 200) {
 					console.log("success: " + cb_xhr.responseText);
 					var json = JSON.parse(cb_xhr.responseText);
-					parseCBData(json);
-					console.log(json);
-					var boxLongitude = json.contextElement.attributes[4].value;
-					var boxLatitude = json.contextElement.attributes[3].value;
-					var boxName = "some thing";
-					var boxDescription = "description";
-					var boxId = "9999";
-
-					// var tileXY = city.grid.lonlat2tile(boxLatitude, boxLongitude, city.geo.tileZoom, true);
-					// city.webgl.scene.createBox(tileXY[0], tileXY[1], boxName, boxDescription, boxId);
-
-					city.webgl.scene.createBox(boxLatitude, boxLongitude, boxName, boxDescription, boxId);
+					sceneScope.parseCBData(json);
 				} else if (cb_xhr.status === 404) {
 					console.log("failed: " + cb_xhr.responseText);
 				}
@@ -181,7 +179,52 @@ function updateDialogs(event) {
 		cb_xhr.setRequestHeader("Accept", "application/json");
 		cb_xhr.setRequestHeader("X-Auth-Token", "4wUdbVliV55X5zI68DfDZgVI-by2MBR0s3QhJF7WwwOU0u5AO3f85ycMouzxr3UWGfbCjO3ODcaM6ybtHLcJPA");
 		cb_xhr.send();
-	}
+	};
+
+	VIZI.Scene.prototype.parseCBData = function(json) {
+		console.log(json);
+		var boxLongitude = json.contextElement.attributes[4].value;
+		var boxLatitude = json.contextElement.attributes[3].value;
+		var boxName = "some thing";
+		var boxDescription = "description";
+		var boxId = "9999";
+
+		// var tileXY = city.grid.lonlat2tile(boxLatitude, boxLongitude, city.geo.tileZoom, true);
+		// city.webgl.scene.createBox(tileXY[0], tileXY[1], boxName, boxDescription, boxId);
+
+		city.webgl.scene.createBox(boxLatitude, boxLongitude, boxName, boxDescription, boxId);
+	};
+
+	VIZI.Scene.prototype.parseOfflineCBData = function(json) {
+		console.log(json);
+
+		function objToString(obj) {
+			var str = '';
+			for (var p in obj) {
+				if (obj.hasOwnProperty(p)) {
+					str += p + '::' + obj[p] + '\n';
+				}
+			}
+			return str;
+		}
+
+		for (var i = 0; i < 10020; i++) {
+			if(json[i] == undefined){
+				continue;
+			}
+			var boxLongitude = json[i].geopos[1];
+			var boxLatitude = json[i].geopos[0];
+			var boxName = "Sensor";
+			var boxDescription = [];
+			for (var variable in json[i].data) {
+				boxDescription.push(variable + ": " + json[i].data[variable]);
+			}
+			// objToString(json[i].data);
+			var boxId = i;
+
+			city.webgl.scene.createBox(boxLatitude, boxLongitude, boxName, boxDescription, boxId);
+		}
+	};
 
 	VIZI.Scene.prototype.makeTextSprite = function(message, parameters) {
 		function roundRect(ctx, x, y, w, h, r) {
@@ -442,13 +485,17 @@ function updateDialogs(event) {
 
 				// jQuery dialog
 				var newDialog = selectedObject.uuid;
-				$("body").append("<div id=" + newDialog + " title='" + selectedObject.name + "'>" + selectedObject.description + "</div>");
+				var descr = "";
+				for(var attr in selectedObject.description ){
+					descr += selectedObject.description[attr] + "<br>";
+				}
+				$("body").append("<div id=" + newDialog + " title='" + selectedObject.name + "'>" + descr + "</div>");
 				dialogs[selectedObject.index] = $("#" + newDialog).dialog({
 					width: 300,
 					height: "auto",
 					ind: selectedObject.index,
 					close: function(ev, ui) {
-						console.log("destroy diallog");
+						console.log("destroy dialog");
 						var customAttrValue = $("#"+this.id).dialog("option", "ind");
 						dialogs[customAttrValue].remove();
 						dialogs[customAttrValue] = undefined;
