@@ -78,7 +78,7 @@
 		directionalLight2.target.position.z = -2500;
 		// directionalLight2.position.normalize();
 
-		directionalLight2.shadowCameraRight = 1000;
+		directionalLight2.shadowCameraRight = 1500;
 		directionalLight2.shadowCameraLeft = -1000;
 		directionalLight2.shadowCameraTop = 1000;
 		directionalLight2.shadowCameraBottom = -1500;
