@@ -236,7 +236,8 @@
 
           var layer = Number(properties.layer);
           
-          var featureColour = new THREE.Color(0xc1c1c1);
+          // var featureColour = new THREE.Color(0xc1c1c1);
+           var featureColour = new THREE.Color("rgb(65,65,65)");
           // switch (layer) {
           //   case -1:
           //     featureColour = new THREE.Color(0xFF0000);

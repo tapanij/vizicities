@@ -614,9 +614,11 @@
 	VIZI.DataOverpass.prototype.processColour = function(tags) {
 		var colour;
 		if (tags["building"] || tags["building:part"]) {
-			colour = 0xce950e;
+			// colour = 0xce950e;
+			colour = "rgb(115,55,50)";
 		} else if (tags["waterway"] || tags["natural"] === "water") {
-			colour = 0x6DCCFF;
+			// colour = 0x6DCCFF;
+			colour = "rgb(50,215,245)";
 } else if (tags["natural"] === "beach") {
 			colour = 0xFFD700; // sand
 		}
@@ -625,7 +627,8 @@
 			// console.table(tags);
 			colour = 0x7ea410;
 		} else if (tags["natural"] === "wood" || tags["leisure"] && /park|pitch/.test(tags["leisure"]) || tags["landuse"] && /grass|meadow/.test(tags["landuse"])) {
-			colour = 0xc0da75;
+			// colour = 0xc0da75;
+			colour = "rgb(75,145,55)";
 		} else if (tags["landuse"] && /industrial|construction|brownfield/.test(tags["landuse"])) {
 			colour = 0xd8c7b5;
 		} else if (tags["landuse"] && /commercial|retail/.test(tags["landuse"])) {

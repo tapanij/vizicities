@@ -27,6 +27,7 @@
 		var floorGeom = new THREE.CircleGeometry(20000, 32);
 		// var floorMat = new THREE.MeshBasicMaterial({color: 0xb9ffba});
 		var floorMat = globalMaterial;
+		floorMat.color = new THREE.Color("rgb(190,220,145)");
 		var floor = new THREE.Mesh(floorGeom, floorMat);
 		floor.receiveShadow = true;
 		floor.position.y = -0.4;
