@@ -40,7 +40,7 @@
 		this.domContainer.appendChild(renderer.domElement);
 
 		// DOF
-		debugger;
+		// debugger;
 		this.initPostprocessing();
 
 
