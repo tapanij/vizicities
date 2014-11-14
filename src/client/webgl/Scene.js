@@ -212,7 +212,6 @@ function updateDialogs(event) {
 			for (var variable in json[i].data) {
 				boxDescription.push(variable + ": " + json[i].data[variable]);
 				if(variable == "Light"){
-					console.log("is light");
 					boxName = "Light";
 					customValue = parseFloat(json[i].data[variable], 10);
 				} else {
@@ -366,22 +365,14 @@ function updateDialogs(event) {
 			*/
 
 			// Lux between 0-500
-			var lux = customValue / 500; // lux between 0 and 1
-			lux = 50;
-
-			var rgbValue = lerpFunc(0, 255, lux);
-
-			var hexValue = rgbToHex(rgbValue, rgbValue, rgbValue);
-			hexValue = parseInt(hexValue);
-
-			newColor = "0x"+hexValue;
-
-			console.log("hex value: " + newColor);
+			newColor = customValue / 500; // lux between 0 and 1
+			console.log("newColor: " + newColor)
 		}
 
 		var sphereMaterial = new THREE.MeshBasicMaterial({
-			color: newColor
+			color: new THREE.Color(newColor, newColor, newColor)
 		});
+		// sphereMaterial.color =;
 		var sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
 		
 		sphere.name = name;
