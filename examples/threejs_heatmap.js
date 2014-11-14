@@ -75,6 +75,7 @@ function addHeat() {
 
     var heatmap_tex = new THREE.Texture(heatmap._renderer.canvas, new THREE.UVMapping(), THREE.RepeatWrapping, THREE.RepeatWrapping);
     heatlayer.material.map = heatmap_tex;
+    heatlayer.material.transparent = true;
     heatlayer.material.map.needsUpdate = true;
 
     updateData(heatmap, heatlayer);
