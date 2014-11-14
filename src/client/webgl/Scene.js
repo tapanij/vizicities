@@ -19,6 +19,7 @@ var dialogs = [];
 var globaali;
 var treeModel, treeModelB, treeModelC;
 var trees;
+var lightbulb;
 var testest;
 var treeLimit = 1200;
 var treeAmount = 0;
@@ -121,9 +122,11 @@ function updateDialogs(event) {
 		// Tree model
 		var jsonLoader = new THREE.JSONLoader();
 		// addModelToScene function is called back after model has loaded
-		jsonLoader.load("models/tree.js", this.loadTreeModel); 
-		jsonLoader.load("models/tree2.js", this.loadTreeModel); 
-		jsonLoader.load("models/tree3.js", this.loadTreeModel); 
+		jsonLoader.load("models/tree.js", this.loadModel); 
+		jsonLoader.load("models/tree2.js", this.loadModel); 
+		jsonLoader.load("models/tree3.js", this.loadModel); 
+		// Lightbulb model
+		jsonLoader.load("models/lightbulb.js", this.loadModel); 
 
 		// when the mouse moves, call the given function
 		proj = new THREE.Projector();
@@ -343,7 +346,7 @@ function updateDialogs(event) {
 			return componentToHex(r) + componentToHex(g) + componentToHex(b);
 		}
 
-		var sphereGeometry = new THREE.SphereGeometry(5, 8, 8); // Radius size, number of vertical segments, number of horizontal rings.
+		// var sphereGeometry = new THREE.SphereGeometry(5, 8, 8); // Radius size, number of vertical segments, number of horizontal rings.
 
 		var newColor = 0x0FF6464; // red
 
@@ -374,7 +377,14 @@ function updateDialogs(event) {
 			emissive: 0x8F4800
 		});
 		// sphereMaterial.color =;
-		var sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+		// var sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+		var sphere = new THREE.Mesh(lightbulb.geometry.clone(), lightbulb.material.clone());
+		sphere.material.materials[0].color = new THREE.Color(newColor, newColor, 0);
+		sphere.material.materials[0].emissive = new THREE.Color(0x8F4800);
+		// debugger;
+		sphere.scale.set(0.25, 0.25, 0.25);
+
+		// sphere.rotation = 
 		
 		sphere.name = name;
 		sphere.description = desc;
@@ -530,19 +540,18 @@ function updateDialogs(event) {
 		treeAmount++;
 	};
 
-	VIZI.Scene.prototype.loadTreeModel = function(geometry, materials) {
+	VIZI.Scene.prototype.loadModel = function(geometry, materials) {
 		console.log("load tree model");
 		var material = new THREE.MeshFaceMaterial(materials);
 
 		if (treeModel == undefined) {
 			treeModel = new THREE.Mesh(geometry, material);
-			treeModel.scale.set(10, 10, 10);
 		} else if (treeModelB == undefined) {
 			treeModelB = new THREE.Mesh(geometry, material);
-			treeModelB.scale.set(10, 10, 10);
 		} else if (treeModelC == undefined) {
 			treeModelC = new THREE.Mesh(geometry, material);
-			treeModelC.scale.set(10, 10, 10);
+		} else if (lightbulb == undefined) {
+			lightbulb = new THREE.Mesh(geometry, material);
 		} 
 	};
 
