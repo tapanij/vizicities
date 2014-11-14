@@ -538,7 +538,7 @@
 			height = 0.3;
 			// } else if (tags["waterway"] || tags["natural"] && /water|scrub/.test(tags["natural"]) || tags["leisure"] && /park|pitch/.test(tags["leisure"]) || tags["landuse"] && /grass|meadow|commercial|retail|industrial|brownfield/.test(tags["landuse"])) {
 		} else if (tags["waterway"] || tags["natural"] === "water") {
-			height = 4;
+			height = 0.35;
 		} 
 		// else if (tags["natural"] === "tree") {
 		// 	console.log("natural tree");

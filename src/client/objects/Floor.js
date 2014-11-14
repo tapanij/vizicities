@@ -30,7 +30,7 @@
 		floorMat.color = new THREE.Color("rgb(190,220,145)");
 		var floor = new THREE.Mesh(floorGeom, floorMat);
 		floor.receiveShadow = true;
-		floor.position.y = -0.4;
+		floor.position.y = 0;
 		floor.rotation.x = - 90 * Math.PI / 180;
 
 		floorContainer.add(floor);

@@ -72,11 +72,11 @@
 		directionalLight2.castShadow = true;
 		directionalLight2.shadowMapWidth = 4096;
 		directionalLight2.shadowMapHeight = 4096;
-		directionalLight2.shadowDarkness = 0.5;
+		directionalLight2.shadowDarkness = 0.3;
 		directionalLight2.shadowCameraVisible = false;
-		directionalLight2.target.position.x = -500;
+		directionalLight2.target.position.x = -600;
 		directionalLight2.target.position.y = 0;
-		directionalLight2.target.position.z = -2500;
+		directionalLight2.target.position.z = -1900;
 		// directionalLight2.position.normalize();
 
 		directionalLight2.shadowCameraRight = 1500;
@@ -96,8 +96,9 @@
 // 		hemiLight.position.set( 0, 600, 0 );
 
 		var hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 0.6);
+		// var hemiLight = new THREE.HemisphereLight(0xC7F1FF, 0x52C0FF, 0.6);
 		hemiLight.color.setHSL(0.6, 1, 0.6); // 153, 255, 153
-		hemiLight.groundColor.setHSL(0.095, 1, 0.75);
+		hemiLight.groundColor.setHSL(0.095, 1, 0.75); // 24, 255, 191
 		hemiLight.position.set(0, 500, 0);
 
 		hemiLight.castShadow = false;
