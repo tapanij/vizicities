@@ -191,6 +191,7 @@
 
           // Flip buildings as they are up-side down
           mesh.rotation.x = 90 * Math.PI / 180;
+          debugger;
 
           return mesh;
         };

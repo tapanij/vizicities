@@ -365,12 +365,13 @@ function updateDialogs(event) {
 			*/
 
 			// Lux between 0-500
-			newColor = customValue / 500; // lux between 0 and 1
+			newColor = customValue / 10;// 500; // lux between 0 and 1
 			console.log("newColor: " + newColor)
 		}
 
-		var sphereMaterial = new THREE.MeshBasicMaterial({
-			color: new THREE.Color(newColor, newColor, newColor)
+		var sphereMaterial = new THREE.MeshPhongMaterial({
+			color: new THREE.Color(newColor, newColor, 0),
+			emissive: 0x8F4800
 		});
 		// sphereMaterial.color =;
 		var sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
@@ -378,6 +379,10 @@ function updateDialogs(event) {
 		sphere.name = name;
 		sphere.description = desc;
 		sphere.uuid = uuid;
+
+		// // PointLight
+		// var light = new THREE.PointLight( 0xFFF87A, customValue, 100 );
+		// sphere.add(light);
 		
 
 		// sphere.position.set(lat, 25, lon);
