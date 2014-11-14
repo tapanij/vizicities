@@ -103,8 +103,8 @@
 
 		hemiLight.castShadow = false;
 
-		// this.lights.push(hemiLight);
-		// this.publish("addLightToScene", hemiLight);
+		this.lights.push(hemiLight);
+		this.publish("addLightToScene", hemiLight);
 	};
 
 	// Global helpers (move elsewhere?)
