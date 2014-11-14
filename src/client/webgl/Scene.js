@@ -214,7 +214,7 @@ function updateDialogs(event) {
 				if(variable == "Light"){
 					console.log("is light");
 					boxName = "Light";
-					customValue = parseInt(json[i].data[variable], 10);
+					customValue = parseFloat(json[i].data[variable], 10);
 				} else {
 					boxName = "Sensor";
 				}
@@ -349,8 +349,8 @@ function updateDialogs(event) {
 		var newColor = 0x0FF6464; // red
 
 
-		if(name == "Light"){
-			
+		if(name == "Light"){			
+			/*
 			0.0001 lux		Moonless, overcast night sky (starlight)[3]
 			0.002 lux		Moonless clear night sky with airglow[3]
 			0.27–1.0 lux	Full moon on a clear night[3][4]
@@ -363,16 +363,16 @@ function updateDialogs(event) {
 			1000 lux		Overcast day;[3] typical TV studio lighting
 			10000–25000 	lux	Full daylight (not direct sun)[3]
 			32000–100000 	lux	Direct sunlight
-			
-
-
+			*/
 
 			// Lux between 0-500
 			var lux = customValue / 500; // lux between 0 and 1
+			lux = 50;
 
 			var rgbValue = lerpFunc(0, 255, lux);
 
 			var hexValue = rgbToHex(rgbValue, rgbValue, rgbValue);
+			hexValue = parseInt(hexValue);
 
 			newColor = "0x"+hexValue;
 
