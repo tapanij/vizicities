@@ -191,7 +191,6 @@
 
           // Flip buildings as they are up-side down
           mesh.rotation.x = 90 * Math.PI / 180;
-          debugger;
 
           return mesh;
         };
@@ -294,10 +293,18 @@
 
           var geom = new THREE.ExtrudeGeometry(roadshape, { extrudePath: splinePath, frames: frames, steps: steps, closed: false, UVGenerator: uvgenerator});
           geom.computeVertexNormals();
+          
+          // var roadMaterial = new THREE.MeshLambertMaterial({
+          //   // ambient: 0xffffff,
+          //   // emissive: 0xcccccc,
+          //   shading: THREE.FlatShading,
+          //   // transparent: true,
+          //   // wireframe: true,
+          //   color: 0xFF0000 // used if no vertexColors available?
+          // });
 
           // var elementColour = (properties.colour) ? new THREE.Color(properties.colour) : colour;
           // applyVertexColors( geom, elementColour );
-
           applyVertexColors( geom, featureColour );
 
           // END: http://bai.dev.supcrit.com/scripts/engine/things/road.js
@@ -333,6 +340,9 @@
           // Avoids conflicts with ways like 231879501
           if (properties["building"]) {
             mesh = createExtrudedObject(feature);
+            var minHeight = 30;
+            mesh.position.y = Math.max(minHeight,75 - mesh.geometry.vertices.length);
+            mesh.scale.z = 10;
           } else if (properties["highway"]) {
             mesh = createRoadObject(feature);
           } else {

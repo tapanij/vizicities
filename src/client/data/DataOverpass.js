@@ -531,9 +531,9 @@
 		} else if (!height && tags["building:levels"]) {
 			height = tags["building:levels"] * this.METERS_PER_LEVEL * scalingFactor << 0;
 		} else if (tags["building"]) {
-			// check VIZI.ObjectManagerOverpass.prototype.processFeaturesWorker : 186~
-			height = 10 + Math.random() * 10;
-			// height = 10;
+			// check VIZI.ObjectManagerOverpass.prototype.processFeaturesWorker : 343~
+			// height = 10 + Math.random() * 10;
+			height = 10;
 		}else if (tags["natural"] === "beach") {
 			height = 0.3;
 		}else if (tags["landuse"] === "forest") {
