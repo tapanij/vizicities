@@ -146,6 +146,7 @@ function updateDialogs(event) {
 		var sceneScope = this;
 		$.getJSON("nodeinfo.json", function(data) {
 			sceneScope.parseOfflineCBData(data);
+                    addHeat();
 		});
 		
 		// fog
