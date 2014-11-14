@@ -1,3 +1,23 @@
+/* 1st test area in Santander
+bottom-left: 43.463369, -3.805923
+top-right:   43.476170, -3.789915
+
+tight on univ sensors:
+43.470695, -3.803182
+43.472606, -3.799289
+
+plane scale there:
+566, y: 1, z: 410
+*/
+
+//east, south, 
+var heatmapbox = {
+    'east': -3.799289, 
+    'south': 43.470600, 
+    'west': -3.803182, 
+    'north': 43.472606
+};
+
 function debugObject(lat, lng) {
     var dmat = new THREE.MeshBasicMaterial({color: 0x0000FF});
     var dcubegeom = new THREE.CubeGeometry(3, 8, 3);
@@ -13,18 +33,22 @@ function debugObject(lat, lng) {
 }
 
 function addHeat() {
-    debugObject(43.463369, -3.805923);
-    debugObject(43.476170, -3.789915);
+    //debugObject(heatmapbox.south, heatmapbox.west);
+    //debugObject(heatmapbox.north, heatmapbox.east);
 
     var heatgeom = new THREE.CubeGeometry(1, 1, 1);
     var heatmat = new THREE.MeshBasicMaterial({color: 0xFFFFFF});
     var heatlayer = new THREE.Mesh(heatgeom, heatmat);
 
-    var heat_scenecoord = city.geo.projection([-3.800, 43.463369], city.geo.tileZoom);
+    var heatboxcenter = [(heatmapbox.east + heatmapbox.west) / 2,
+                         (heatmapbox.south + heatmapbox.north) / 2];
+    //debugObject(heatboxcenter[1], heatboxcenter[0]);
+
+    var heat_scenecoord = city.geo.projection(heatboxcenter, city.geo.tileZoom);
     heatlayer.position.x = heat_scenecoord[0];
-    heatlayer.position.y = 1;
+    heatlayer.position.y = 50;
     heatlayer.position.z = heat_scenecoord[1];
-    heatlayer.scale.set(1000, 10, 1000);
+    heatlayer.scale.set(566, 1, 410);
     city.webgl.scene.addToScene(heatlayer);
 
     // create a heatmap instance
@@ -76,6 +100,7 @@ function addHeat() {
     var heatmap_tex = new THREE.Texture(heatmap._renderer.canvas, new THREE.UVMapping(), THREE.RepeatWrapping, THREE.RepeatWrapping);
     heatlayer.material.map = heatmap_tex;
     heatlayer.material.transparent = true;
+    heatlayer.castShadow = false;
     heatlayer.material.map.needsUpdate = true;
 
     updateData(heatmap, heatlayer);
@@ -98,14 +123,10 @@ function updateData(heatmap, heatlayer) {
 }
 
 function normaliseGeopos(geopos) {
-/* the area in Santander
-bottom-left: 43.463369, -3.805923
-top-right:   43.476170, -3.789915
-*/
-    var east = -3.805923;
-    var west = -3.789915;
-    var south = 43.463369;
-    var north = 43.476170;
+    var east = heatmapbox.east;
+    var west = heatmapbox.west;
+    var south = heatmapbox.south;
+    var north = heatmapbox.north;
 
     var width = west - east;
     var height = north - south;
@@ -140,7 +161,7 @@ function heatmap_parseOfflineCBData(json, heatmap) {
     //populate heatmap data
     var hmapdata = [];
     THREE.hmapdata = hmapdata;
-    r = 10;
+    r = 30;
 
     var canvas = heatmap._renderer.canvas;
     //var width = (+window.getComputedStyle(document.body).width.replace(/px/,''));

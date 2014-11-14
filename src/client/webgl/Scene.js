@@ -20,7 +20,7 @@ var globaali;
 var treeModel, treeModelB, treeModelC;
 var trees;
 var testest;
-var treeLimit = 10; //1200;
+var treeLimit = 1200;
 var treeAmount = 0;
 var globalMaterial = new THREE.MeshLambertMaterial({
       vertexColors: THREE.VertexColors,
