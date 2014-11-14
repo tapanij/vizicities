@@ -42,11 +42,20 @@
 	VIZI.WebGL.prototype.addLights = function() {
 		VIZI.Log("Adding lights to scene");
 
+		// AMBIENT LIGHT 1
+
+		var light = new THREE.AmbientLight( 0x404040 ); // soft white light
+		this.publish("addLightToScene", light);
+		this.lights.push(light);
+
+		// AMBIENT LIGHT 2
+
 		// var ambientLight = new THREE.AmbientLight( 0xeeeeee );
 		// THREE.ColorConverter.setHSV( ambientLight.color, 0.1, 0.1, 0.4 );
-
 		// this.lights.push(ambientLight);
-		// this.publish("addToScene", ambientLight);
+		// this.publish("addLightToScene", ambientLight);
+
+		// DIRECTIONAL LIGHT 1
 
 		// var directionalLight = new THREE.DirectionalLight( 0x999999 );
 		// directionalLight.intesity = 0.1;
@@ -62,7 +71,10 @@
 		// var helper1 = new THREE.DirectionalLightHelper(directionalLight, 50);
 		// this.publish("addToScene", helper1);
 
-		var highNoonSun = 0xFFFFFB;
+		// DIRECTIONAL LIGHT 2
+
+		// var highNoonSun = 0xFFFFFB;
+		var highNoonSun = 0xFFFFFF;
 		var directionalLight2 = new THREE.DirectionalLight( highNoonSun );
 		directionalLight2.intesity = 1;
 		// THREE.ColorConverter.setHSV( directionalLight2.color, 0.1, 0.1, 0.5 );
@@ -90,13 +102,17 @@
 		// var helper2 = new THREE.DirectionalLightHelper(directionalLight2, 50);
 		// this.publish("addToScene", helper2);
 
-// var hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 0.65 );
-// 		THREE.ColorConverter.setHSV( hemiLight.color, 0.6, 0.35, 0.7 );
-// 		THREE.ColorConverter.setHSV( hemiLight.groundColor, 0.095, 0.5, 0.6 );
-// 		hemiLight.position.set( 0, 600, 0 );
+		// HEMISPHERE LIGHT 1
 
-		var hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 0.6);
-		// var hemiLight = new THREE.HemisphereLight(0xC7F1FF, 0x52C0FF, 0.6);
+		// var hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 0.65 );
+		// 		THREE.ColorConverter.setHSV( hemiLight.color, 0.6, 0.35, 0.7 );
+		// 		THREE.ColorConverter.setHSV( hemiLight.groundColor, 0.095, 0.5, 0.6 );
+		// 		hemiLight.position.set( 0, 600, 0 );
+
+		// HEMISPHERE LIGHT 2
+
+		// var hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 0.6);
+		var hemiLight = new THREE.HemisphereLight(0xC7F1FF, 0x52C0FF, 0.6);
 		hemiLight.color.setHSL(0.6, 1, 0.6); // 153, 255, 153
 		hemiLight.groundColor.setHSL(0.095, 1, 0.75); // 24, 255, 191
 		hemiLight.position.set(0, 500, 0);
