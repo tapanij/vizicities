@@ -142,21 +142,48 @@ function updateDialogs(event) {
 		// this.getCBInfo(10015);
 		// this.getCBInfo(10013);
 
-		// Get offline Context Broker info
 		var sceneScope = this;
+                // Get OFFLINE FAKE Context Broker info
 		$.getJSON("nodeinfo.json", function(data) {
-			sceneScope.parseOfflineCBData(data);
+		    sceneScope.parseOfflineCBData(data);
                     addHeat();
 		});
-		
+
+/*
+                // Get REAL ONLINE Context Broker info
+                var queryData = {
+                    "entities": [
+                        {
+                            "type": "",
+                            "isPattern": "true",
+                            "id": "OUTSMART.NODE"
+                        }
+                    ]
+                };            
+
+                $.ajax({
+                    url: 'http://orion.lab.fi-ware.org:1026/v1/queryContext',
+                    type: 'POST',
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    error: function(jqXHR, textStatus, errorThrown) { 
+                        console.log(jqXHR, textStatus, errorThrown);
+                    },
+                    headers: { "Accept": "application/json",
+                               'X-Auth-Token' :   
+                               '4wUdbVliV55X5zI68DfDZgVI-by2MBR0s3QhJF7WwwOU0u5AO3f85ycMouzxr3UWGfbCjO3ODcaM6ybtHLcJPA' },
+                    data: JSON.stringify(queryData)
+                }).done(function(json) {
+                    sceneScope.parseRealCBData(json);
+                    addHeat();
+                });
+*/		
 		// fog
 		this.scene.fog.far = 6000;
 	};
 
+/* old first single sensor CB get test
 	VIZI.Scene.prototype.getCBInfo = function(nodeID) {
-		function parseCBData(json) {
-		}
-		
 		console.log("Doing search from " + BACKEND_ADDRESS_CB);
 		var restQueryURL = BACKEND_ADDRESS_CB + "urn:smartsantander:testbed:"+nodeID;
 		console.log("restQueryURL: " + restQueryURL);
@@ -200,6 +227,7 @@ function updateDialogs(event) {
 
 		city.webgl.scene.createBox(boxLatitude, boxLongitude, boxName, boxDescription, boxId);
 	};
+*/
 
 	VIZI.Scene.prototype.parseOfflineCBData = function(json) {
 		console.log(json);
@@ -250,6 +278,12 @@ function updateDialogs(event) {
 			createSensor(i);
 		}
 	};
+
+        VIZI.Scene.prototype.parseRealCBData = function(json) {
+            console.log(json);
+            //handle the json and call createSensor here
+            //move createSensor to standalone and pass the data to it
+        }
 
 	VIZI.Scene.prototype.makeTextSprite = function(message, parameters) {
 		function roundRect(ctx, x, y, w, h, r) {
