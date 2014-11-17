@@ -20,6 +20,7 @@ var globaali;
 var treeModel, treeModelB, treeModelC;
 var trees;
 var lightbulb;
+var thermometer;
 var testest;
 var treeLimit = 1200; // 1200
 var treeAmount = 0;
@@ -146,6 +147,8 @@ function updateDialogs(event) {
 		jsonLoader.load("models/tree3.js", this.loadTreeModelC);
 		// Lightbulb model
 		jsonLoader.load("models/lightbulb.js", this.loadLightbulbModel);
+		// Thermometer model
+		jsonLoader.load("models/thermometer.js", this.loadThermometerModel);
 
 		// when the mouse moves, call the given function
 		proj = new THREE.Projector();
@@ -246,7 +249,7 @@ function updateDialogs(event) {
 			if (boxName == "Light") {
 				city.webgl.scene.createSphere(boxLatitude, boxLongitude, boxName, boxDescription, boxId, customValue);
 			} else {
-				city.webgl.scene.createBox(boxLatitude, boxLongitude, boxName, boxDescription, boxId);
+				city.webgl.scene.createThermometer(boxLatitude, boxLongitude, boxName, boxDescription, boxId);
 			}
 		}
 
@@ -352,19 +355,6 @@ function updateDialogs(event) {
 	};
 
 	VIZI.Scene.prototype.createSphere = function(lat, lon, name, desc, uuid, customValue) {
-		function lerpFunc(a, b, t) {
-			return a + (b - a) * t;
-		}
-
-		function componentToHex(c) {
-			var hex = c.toString(16);
-			return hex.length == 1 ? "0" + hex : hex;
-		}
-
-		function rgbToHex(r, g, b) {
-			return componentToHex(r) + componentToHex(g) + componentToHex(b);
-		}
-
 		// var sphereGeometry = new THREE.SphereGeometry(5, 8, 8); // Radius size, number of vertical segments, number of horizontal rings.
 
 		var newColor = 0x0FF6464; // red
@@ -501,6 +491,31 @@ function updateDialogs(event) {
 		// console.log("createBox end");
 	};
 
+	VIZI.Scene.prototype.createThermometer = function(lat, lon, name, desc, uuid) {
+		console.log("createThermometer");
+
+		var thermo = new THREE.Mesh(thermometer.geometry.clone(), thermometer.material.clone());
+
+		thermo.scale.set(2, 2, 2);
+		thermo.rotateY(90);
+
+		thermo.name = name;
+		thermo.description = desc;
+		thermo.uuid = uuid;
+
+		var coord = [lon, lat];
+		var newPos = city.geo.projection(coord, city.geo.tileZoom);
+		thermo.position.x = newPos[0];
+		thermo.position.y = 50;
+		thermo.position.z = newPos[1];
+
+		thermo.index = pois.length;
+		pois.push(thermo);
+		dialogs.push(undefined);
+
+		this.addToScene(thermo);
+	};
+
 	VIZI.Scene.prototype.createTree = function(lat, lon, name, desc, uuid) {
 		if (treeAmount >= treeLimit) {
 			return;
@@ -586,7 +601,13 @@ function updateDialogs(event) {
 		var material = new THREE.MeshFaceMaterial(materials);
 
 		lightbulb = new THREE.Mesh(geometry, material);
+	};
 
+		VIZI.Scene.prototype.loadThermometerModel = function(geometry, materials) {
+		console.log("load thermometer model");
+		var material = new THREE.MeshFaceMaterial(materials);
+
+		thermometer = new THREE.Mesh(geometry, material);
 	};
 
 	VIZI.Scene.prototype.onDocumentMouseMove = function(event) {

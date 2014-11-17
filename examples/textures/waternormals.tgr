@@ -1,0 +1,24 @@
+#NTEVersion 6
+#BeginNodes 5
+408 396 0
+engine.graphics.synthesis.texture.FilterNormalMap
+ExportName "" Strength 10.0 endparameters
+193 287 0
+engine.graphics.synthesis.texture.FilterEmboss
+ExportName "" Strength 5.0 Angle 45.0 endparameters
+263 47 0
+engine.graphics.synthesis.texture.PatternCellular
+ExportName "" Transformation 1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0 Color_Mapping 3 0.198883 0.3 0.135 1.0 0.0 0.324169 0.454545 0.114714 1.0 0.4589372 0.091517 0.26 0.0 1.0 0.99999994 Cell_Type 0 Distance_ 2 PointGen 3 Seed 1 Intensity 0.35000002 Jitter 0.0 NumPoints 400 RandColor false Periodic true endparameters
+591 30 0
+engine.graphics.synthesis.texture.PatternCellular
+ExportName "" Transformation 1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0 Color_Mapping 3 0.198883 0.3 0.135 1.0 0.0 0.324169 0.454545 0.114714 1.0 0.4589372 0.091517 0.26 0.0 1.0 0.99999994 Cell_Type 0 Distance_ 2 PointGen 3 Seed 1 Intensity 0.35000002 Jitter 0.0 NumPoints 100 RandColor false Periodic true endparameters
+448 127 0
+engine.graphics.synthesis.texture.FilterBlend
+ExportName "" Layer_Func. 0 Opacity 0.5 Inv._Alpha false endparameters
+#EndNodes
+#BeginConnections 3
+2 4 0
+3 4 1
+4 0 0
+#EndConnections
+glpreview 0 0 -1 -1 Object 0 Spec._Power 20.0 POM_Strength 0.25 Ambient 0.25 TexScale_U 2 TexScale_V 2 CamRotX 36.0 CamRotY 268.0 CamDist 3.1999993 endglpreview

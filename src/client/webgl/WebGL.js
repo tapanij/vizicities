@@ -26,17 +26,17 @@
 
 
 		// WATER
-		waterNormals = new THREE.ImageUtils.loadTexture('textures/waternormals.jpg');
+		waterNormals = new THREE.ImageUtils.loadTexture('textures/waternormals.png');
 		waterNormals.wrapS = waterNormals.wrapT = THREE.RepeatWrapping;
 
 		water = new THREE.Water(this.renderer.renderer, this.camera.camera, this.scene.scene, {
-			textureWidth: 512,
-			textureHeight: 512,
+			textureWidth: 1024,
+			textureHeight: 1024,
 			waterNormals: waterNormals,
-			alpha: 1.0,
+			alpha: 0.65,
 			sunDirection: directionalLight2.position.clone().normalize(),
 			sunColor: 0xffffff,
-			waterColor: "rgb(50,215,245)",
+			waterColor: "rgb(60,225,255)",
 			distortionScale: 50.0,
 		});
 
@@ -101,7 +101,7 @@
 		// var highNoonSun = 0xFFFFFB;
 		var highNoonSun = 0xFFFFFF;
 		directionalLight2 = new THREE.DirectionalLight( highNoonSun );
-		directionalLight2.intesity = 1;
+		directionalLight2.intesity = 1.3;
 		// THREE.ColorConverter.setHSV( directionalLight2.color, 0.1, 0.1, 0.5 );
 		directionalLight2.position.x = -1000;
 		directionalLight2.position.y = 1300;
