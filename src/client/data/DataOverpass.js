@@ -617,9 +617,9 @@
 		var colour;
 		if (tags["building"] || tags["building:part"]) {
 			// colour = 0xce950e;
-			// colour = "rgb(115,55,50)";
+			colour = "rgb(115,55,50)";
 			// colour = "rgb(255,250,250)";
-			colour = "rgb(255,255,255)";
+			// colour = "rgb(255,255,255)";
 		} else if (tags["waterway"] || tags["natural"] === "water") {
 			// colour = 0x6DCCFF;
 			colour = "rgb(50,215,245)";

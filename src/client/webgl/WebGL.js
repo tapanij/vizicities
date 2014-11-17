@@ -24,6 +24,31 @@
 		this.lights = [];
 		this.addLights();
 
+
+		// WATER
+		waterNormals = new THREE.ImageUtils.loadTexture('textures/waternormals.jpg');
+		waterNormals.wrapS = waterNormals.wrapT = THREE.RepeatWrapping;
+
+		water = new THREE.Water(this.renderer.renderer, this.camera.camera, this.scene.scene, {
+			textureWidth: 512,
+			textureHeight: 512,
+			waterNormals: waterNormals,
+			alpha: 1.0,
+			sunDirection: directionalLight2.position.clone().normalize(),
+			sunColor: 0xffffff,
+			waterColor: 0x001e0f,
+			distortionScale: 50.0,
+		});
+
+		// mirrorMesh = new THREE.Mesh(
+		// 	// new THREE.PlaneBufferGeometry(waterParameters.width * 500, waterParameters.height * 500),
+		// 	new THREE.PlaneGeometry( waterParameters.width * 500, waterParameters.height * 500),
+		// 	water.material);
+
+		// mirrorMesh.add(water);
+		// mirrorMesh.rotation.x = -Math.PI * 0.5;
+		// this.scene.addToScene(mirrorMesh);
+
 		return Q.fcall(function() {});
 	};
 
@@ -75,7 +100,7 @@
 
 		// var highNoonSun = 0xFFFFFB;
 		var highNoonSun = 0xFFFFFF;
-		var directionalLight2 = new THREE.DirectionalLight( highNoonSun );
+		directionalLight2 = new THREE.DirectionalLight( highNoonSun );
 		directionalLight2.intesity = 1;
 		// THREE.ColorConverter.setHSV( directionalLight2.color, 0.1, 0.1, 0.5 );
 		directionalLight2.position.x = -1000;

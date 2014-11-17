@@ -29,6 +29,22 @@
 		worker.process([features, pixelsPerMeter]).then(function(data) {
 			var timeToSend = data.startTime - startTime;
 			var timeToArrive = Date.now() - data.timeSent;
+			if (data.water) {
+				var newWaterGeometry = new THREE.Geometry();
+
+				newWaterGeometry.vertices = data.water.vertices;
+				newWaterGeometry.faces = data.water.faces;
+				newWaterGeometry.computeBoundingSphere();
+
+				var waterMeshInstance = new THREE.Mesh(newWaterGeometry);
+				waterMeshInstance.position.set(data.water.position.x, data.water.position.y, data.water.position.z);
+				waterMeshInstance.rotation = new THREE.Euler(data.water.rotation._x, data.water.rotation._y, data.water.rotation._z, data.water.rotation._order);
+				// debugger;
+
+				waterMeshInstance.type = "water";
+				// this.publish("addToScene", waterMeshInstance);
+				city.webgl.scene.addToScene(waterMeshInstance);
+			}
 			deferred.resolve({data: data, timeToArrive: timeToArrive, timeToSend: timeToSend});
 		});
 		return deferred.promise;

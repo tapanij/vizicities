@@ -41,6 +41,11 @@
 	};
 
 	VIZI.Renderer.prototype.render = function() {
+
+		// Water
+		water.material.uniforms.time.value += 1.0 / 60.0;
+		water.render();
+
 		this.publish("fpsTickStart", "render");
 		this.renderer.render( this.scene, this.camera );
 		this.publish("updateRendererInfo", this.renderer.info);
