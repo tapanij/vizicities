@@ -46,6 +46,19 @@
 		water.material.uniforms.time.value += 1.0 / 60.0;
 		water.render();
 
+		// Birds
+		var now = performance.now()
+		var delta = (now - last) / 1000;
+
+		if (delta > 1) delta = 1; // safety cap on large deltas
+		last = now;
+
+		birdUniforms.time.value = now;
+		birdUniforms.delta.value = delta;
+
+		simulator.simulate(delta);
+		simulator.velocityUniforms.predator.value.set(mouseX / windowHalfX, -mouseY / windowHalfY, 0);
+
 		this.publish("fpsTickStart", "render");
 		this.renderer.render( this.scene, this.camera );
 		this.publish("updateRendererInfo", this.renderer.info);

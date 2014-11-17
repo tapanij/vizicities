@@ -54,6 +54,29 @@ var waterNormals;
 var mirrorMesh;
 var water;
 
+// BIRDS
+
+var windowHalfX = window.innerWidth / 2;
+var windowHalfY = window.innerHeight / 2;
+
+// var hash = document.location.hash.substr(1);
+// if (hash) hash = parseInt(hash, 0);
+
+/* TEXTURE WIDTH FOR SIMULATION */
+// var WIDTH = hash || 32;
+var WIDTH = 1024 || 32;
+
+var BIRDS = WIDTH * WIDTH;
+
+var last = performance.now();
+
+var simulator;
+
+var PARTICLES = WIDTH * WIDTH;
+var BOUNDS = 800,
+	BOUNDS_HALF = BOUNDS / 2;
+
+var birdUniforms;
 
 // Calculate and set dialog position
 
