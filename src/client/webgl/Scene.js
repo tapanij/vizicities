@@ -122,11 +122,11 @@ function updateDialogs(event) {
 		// Tree model
 		var jsonLoader = new THREE.JSONLoader();
 		// addModelToScene function is called back after model has loaded
-		jsonLoader.load("models/tree.js", this.loadModel); 
-		jsonLoader.load("models/tree2.js", this.loadModel); 
-		jsonLoader.load("models/tree3.js", this.loadModel); 
+		jsonLoader.load("models/tree.js", this.loadTreeModel); 
+		jsonLoader.load("models/tree2.js", this.loadTreeModelB); 
+		jsonLoader.load("models/tree3.js", this.loadTreeModelC); 
 		// Lightbulb model
-		jsonLoader.load("models/lightbulb.js", this.loadModel); 
+		jsonLoader.load("models/lightbulb.js", this.loadLightbulbModel); 
 
 		// when the mouse moves, call the given function
 		proj = new THREE.Projector();
@@ -541,19 +541,34 @@ function updateDialogs(event) {
 		treeAmount++;
 	};
 
-	VIZI.Scene.prototype.loadModel = function(geometry, materials) {
+	VIZI.Scene.prototype.loadTreeModel = function(geometry, materials) {
 		console.log("load tree model");
 		var material = new THREE.MeshFaceMaterial(materials);
 
-		if (treeModel == undefined) {
-			treeModel = new THREE.Mesh(geometry, material);
-		} else if (treeModelB == undefined) {
-			treeModelB = new THREE.Mesh(geometry, material);
-		} else if (treeModelC == undefined) {
-			treeModelC = new THREE.Mesh(geometry, material);
-		} else if (lightbulb == undefined) {
-			lightbulb = new THREE.Mesh(geometry, material);
-		} 
+		treeModel = new THREE.Mesh(geometry, material);
+
+	};
+
+	VIZI.Scene.prototype.loadTreeModelB = function(geometry, materials) {
+		console.log("load tree model B");
+		var material = new THREE.MeshFaceMaterial(materials);
+
+		treeModelB = new THREE.Mesh(geometry, material);
+	};
+
+	VIZI.Scene.prototype.loadTreeModelC = function(geometry, materials) {
+		console.log("load tree model C");
+		var material = new THREE.MeshFaceMaterial(materials);
+
+		treeModelC = new THREE.Mesh(geometry, material);
+	};
+
+	VIZI.Scene.prototype.loadLightbulbModel = function(geometry, materials) {
+		console.log("load lightbulb model");
+		var material = new THREE.MeshFaceMaterial(materials);
+
+		lightbulb = new THREE.Mesh(geometry, material);
+
 	};
 
 	VIZI.Scene.prototype.onDocumentMouseMove = function(event) {
