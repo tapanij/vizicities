@@ -36,7 +36,7 @@
 			alpha: 1.0,
 			sunDirection: directionalLight2.position.clone().normalize(),
 			sunColor: 0xffffff,
-			waterColor: 0x001e0f,
+			waterColor: "rgb(50,215,245)",
 			distortionScale: 50.0,
 		});
 
