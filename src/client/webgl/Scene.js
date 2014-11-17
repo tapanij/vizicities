@@ -36,6 +36,24 @@ var globalMaterial = new THREE.MeshLambertMaterial({
 var cb_xhr = null; // http request
 var BACKEND_ADDRESS_CB = "http://orion.lab.fi-ware.org:1026/ngsi10/contextEntities/";
 
+var directionalLight2;
+
+// WATER
+var waterParameters = {
+	width: 2000,
+	height: 2000,
+	widthSegments: 250,
+	heightSegments: 250,
+	depth: 1500,
+	param: 4,
+	filterparam: 1
+};
+
+var waterNormals;
+var mirrorMesh;
+var water;
+
+
 // Calculate and set dialog position
 function setDialogPosition(i) {
 	if (dialogs[i] === undefined) {
