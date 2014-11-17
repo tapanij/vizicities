@@ -330,6 +330,8 @@
 
         var count = 0;
 
+        var waterInstance = undefined;
+
         // TODO: Work out how to put feature-specific object generation in here
         //       - eg. Buildings, rivers, roads, etc.
         _.each(features, function(feature) {
@@ -339,6 +341,7 @@
 
           // Building takes priority over highway
           // Avoids conflicts with ways like 231879501
+
           if (properties["building"]) {
             mesh = createExtrudedObject(feature);
             var minHeight = 30;
@@ -348,6 +351,24 @@
             mesh = createRoadObject(feature);
           } else {
             mesh = createExtrudedObject(feature);
+          }
+
+          if(properties["waterway"]){
+            count++;
+            return true;
+          }
+
+          if (properties["natural"] === "water") {
+            // debugger;
+            // mesh.position.y = 100;
+            // city.webgl.scene.addToScene(mesh);
+            // thisScope.publish("addToScene", mesh);
+            waterInstance = mesh.geometry;
+            waterInstance.position = mesh.position;
+            waterInstance.rotation = mesh.rotation;
+            // Don't merge water
+            count++;
+            return true; // same as "continue"
           }
 
           THREE.GeometryUtils.merge(combinedGeom, mesh);
@@ -386,7 +407,7 @@
 
         var timeSent = Date.now();
 
-        var data = {model: model, offset: offset, outputSize: outputSize, inputSize: inputSize, count: count, startTime: startTime, timeTaken: timeTaken, timeSent: timeSent};
+        var data = {model: model, offset: offset, outputSize: outputSize, inputSize: inputSize, count: count, startTime: startTime, timeTaken: timeTaken, timeSent: timeSent, water: waterInstance};
 
         // Send exported geom back to worker manager
         // Second parameter contains reference to typed arrays as transferable objects

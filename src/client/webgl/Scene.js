@@ -21,17 +21,17 @@ var treeModel, treeModelB, treeModelC;
 var trees;
 var lightbulb;
 var testest;
-var treeLimit = 1200;
+var treeLimit = 1200; // 1200
 var treeAmount = 0;
 var globalMaterial = new THREE.MeshLambertMaterial({
-      vertexColors: THREE.VertexColors,
-      // ambient: 0xffffff,
-      // emissive: 0xcccccc,
-      shading: THREE.FlatShading,
-      // transparent: true,
-      // wireframe: true,
-      color: 0xb9ffba // used if no vertexColors available?
-    });
+	vertexColors: THREE.VertexColors,
+	// ambient: 0xffffff,
+	// emissive: 0xcccccc,
+	shading: THREE.FlatShading,
+	// transparent: true,
+	// wireframe: true,
+	color: 0xb9ffba // used if no vertexColors available?
+});
 
 var cb_xhr = null; // http request
 var BACKEND_ADDRESS_CB = "http://orion.lab.fi-ware.org:1026/ngsi10/contextEntities/";
@@ -55,6 +55,7 @@ var water;
 
 
 // Calculate and set dialog position
+
 function setDialogPosition(i) {
 	if (dialogs[i] === undefined) {
 		return;
@@ -75,7 +76,7 @@ function setDialogPosition(i) {
 	var x, y, p, v, percX, percY;
 
 	// this will give us position relative to the world
-	p = new THREE.Vector3(pois[i].position.x, pois[i].position.y /* + (pois[i].geometry.height / 2) */, pois[i].position.z);
+	p = new THREE.Vector3(pois[i].position.x, pois[i].position.y /* + (pois[i].geometry.height / 2) */ , pois[i].position.z);
 
 	// projectVector will translate position to 2d
 	projector = new THREE.Projector();
@@ -140,11 +141,11 @@ function updateDialogs(event) {
 		// Tree model
 		var jsonLoader = new THREE.JSONLoader();
 		// addModelToScene function is called back after model has loaded
-		jsonLoader.load("models/tree.js", this.loadTreeModel); 
-		jsonLoader.load("models/tree2.js", this.loadTreeModelB); 
-		jsonLoader.load("models/tree3.js", this.loadTreeModelC); 
+		jsonLoader.load("models/tree.js", this.loadTreeModel);
+		jsonLoader.load("models/tree2.js", this.loadTreeModelB);
+		jsonLoader.load("models/tree3.js", this.loadTreeModelC);
 		// Lightbulb model
-		jsonLoader.load("models/lightbulb.js", this.loadLightbulbModel); 
+		jsonLoader.load("models/lightbulb.js", this.loadLightbulbModel);
 
 		// when the mouse moves, call the given function
 		proj = new THREE.Projector();
@@ -164,19 +165,18 @@ function updateDialogs(event) {
 		var sceneScope = this;
 		$.getJSON("nodeinfo.json", function(data) {
 			sceneScope.parseOfflineCBData(data);
-                    addHeat();
+			addHeat();
 		});
-		
+
 		// fog
 		this.scene.fog.far = 6000;
 	};
 
 	VIZI.Scene.prototype.getCBInfo = function(nodeID) {
-		function parseCBData(json) {
-		}
-		
+		function parseCBData(json) {}
+
 		console.log("Doing search from " + BACKEND_ADDRESS_CB);
-		var restQueryURL = BACKEND_ADDRESS_CB + "urn:smartsantander:testbed:"+nodeID;
+		var restQueryURL = BACKEND_ADDRESS_CB + "urn:smartsantander:testbed:" + nodeID;
 		console.log("restQueryURL: " + restQueryURL);
 		var cb_xhr = new XMLHttpRequest();
 
@@ -223,7 +223,7 @@ function updateDialogs(event) {
 		console.log(json);
 
 		function createSensor(i) {
-			if(json[i] == undefined){
+			if (json[i] == undefined) {
 				return;
 			}
 			var boxLongitude = json[i].geopos[1];
@@ -233,7 +233,7 @@ function updateDialogs(event) {
 			var customValue;
 			for (var variable in json[i].data) {
 				boxDescription.push(variable + ": " + json[i].data[variable]);
-				if(variable == "Light"){
+				if (variable == "Light") {
 					boxName = "Light";
 					customValue = parseFloat(json[i].data[variable], 10);
 				} else {
@@ -370,7 +370,7 @@ function updateDialogs(event) {
 		var newColor = 0x0FF6464; // red
 
 
-		if(name == "Light"){			
+		if (name == "Light") {
 			/*
 			0.0001 lux		Moonless, overcast night sky (starlight)[3]
 			0.002 lux		Moonless clear night sky with airglow[3]
@@ -387,7 +387,7 @@ function updateDialogs(event) {
 			*/
 
 			// Lux between 0-500
-			newColor = customValue / 10;// 500; // lux between 0 and 1
+			newColor = customValue / 10; // 500; // lux between 0 and 1
 			console.log("newColor: " + newColor)
 		}
 
@@ -404,7 +404,7 @@ function updateDialogs(event) {
 		sphere.scale.set(0.25, 0.25, 0.25);
 
 		// sphere.rotation = 
-		
+
 		sphere.name = name;
 		sphere.description = desc;
 		sphere.uuid = uuid;
@@ -412,7 +412,7 @@ function updateDialogs(event) {
 		// // PointLight
 		// var light = new THREE.PointLight( 0xFFF87A, customValue, 100 );
 		// sphere.add(light);
-		
+
 
 		// sphere.position.set(lat, 25, lon);
 		var coord = [lon, lat];
@@ -426,7 +426,7 @@ function updateDialogs(event) {
 		dialogs.push(undefined);
 
 		this.addToScene(sphere);
-	};	
+	};
 
 	VIZI.Scene.prototype.createBox = function(lat, lon, name, desc, uuid) {
 		console.log("createBox");
@@ -436,7 +436,7 @@ function updateDialogs(event) {
 
 		var newColor = 0x0FF6464; // red
 
-		if(name == "tree"){
+		if (name == "tree") {
 			newColor = 0x669900; // green
 		}
 
@@ -444,18 +444,18 @@ function updateDialogs(event) {
 			color: newColor
 		});
 		cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
-		
+
 		cube.name = name;
 		cube.description = desc;
 		cube.uuid = uuid;
-		
+
 
 		// cube.position.set(lat, 25, lon);
 		var coord = [lon, lat];
 		var newPos = city.geo.projection(coord, city.geo.tileZoom);
 		cube.position.x = newPos[0];
 		cube.position.y = 25;
-		cube.position.z = newPos[1];	
+		cube.position.z = newPos[1];
 
 		// Name sprite
 		// var nameSprite = this.makeTextSprite(name, {
@@ -488,7 +488,7 @@ function updateDialogs(event) {
 				THREE.GeometryUtils.merge(trees.geometry, cube);
 
 				// Center trees
-				trees.position = new THREE.Vector3(0,0,0);
+				trees.position = new THREE.Vector3(0, 0, 0);
 			}
 		} else {
 			cube.index = pois.length;
@@ -502,7 +502,7 @@ function updateDialogs(event) {
 	};
 
 	VIZI.Scene.prototype.createTree = function(lat, lon, name, desc, uuid) {
-		if(treeAmount >= treeLimit){
+		if (treeAmount >= treeLimit) {
 			return;
 		}
 
@@ -510,14 +510,14 @@ function updateDialogs(event) {
 
 		var max = 2;
 		var min = 0;
-		var randomTree =  Math.floor(Math.random() * (max - min + 1)) + min;
+		var randomTree = Math.floor(Math.random() * (max - min + 1)) + min;
 
 		var treeClone;
-		if(randomTree === 0){
+		if (randomTree === 0) {
 			treeClone = new THREE.Mesh(treeModel.geometry.clone(), treeModel.material.clone());
-		} else if(randomTree === 1){
+		} else if (randomTree === 1) {
 			treeClone = new THREE.Mesh(treeModelB.geometry.clone(), treeModelB.material.clone());
-		} else if(randomTree === 2){
+		} else if (randomTree === 2) {
 			treeClone = new THREE.Mesh(treeModelC.geometry.clone(), treeModelC.material.clone());
 		}
 
@@ -604,7 +604,7 @@ function updateDialogs(event) {
 	};
 
 	VIZI.Scene.prototype.onDocumentMouseUp = function(event) {
-	
+
 
 
 		// the following line would stop any other event handler from firing
@@ -639,7 +639,7 @@ function updateDialogs(event) {
 				// jQuery dialog
 				var newDialog = selectedObject.uuid;
 				var descr = "";
-				for(var attr in selectedObject.description ){
+				for (var attr in selectedObject.description) {
 					descr += selectedObject.description[attr] + "<br>";
 				}
 				$("body").append("<div id=" + newDialog + " title='" + selectedObject.name + "'>" + descr + "</div>");
@@ -649,7 +649,7 @@ function updateDialogs(event) {
 					ind: selectedObject.index,
 					close: function(ev, ui) {
 						console.log("destroy dialog");
-						var customAttrValue = $("#"+this.id).dialog("option", "ind");
+						var customAttrValue = $("#" + this.id).dialog("option", "ind");
 						dialogs[customAttrValue].remove();
 						dialogs[customAttrValue] = undefined;
 					}
@@ -682,6 +682,15 @@ function updateDialogs(event) {
 	VIZI.Scene.prototype.addToScene = function(object) {
 		object.receiveShadow = true;
 		object.castShadow = true;
+		// debugger;
+		if (object.type == "water") {
+			globaali = object;
+			object.material = water.material;
+			// object.material = new THREE.MeshPhongMaterial(  );
+			object.receiveShadow = false;
+			object.castShadow = false;
+		}
+		// console.log(object);
 		this.scene.add(object);
 		this.objects.push(object);
 	};

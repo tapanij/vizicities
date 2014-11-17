@@ -40,14 +40,14 @@
 			distortionScale: 50.0,
 		});
 
-		mirrorMesh = new THREE.Mesh(
-			// new THREE.PlaneBufferGeometry(waterParameters.width * 500, waterParameters.height * 500),
-			new THREE.PlaneGeometry( waterParameters.width * 500, waterParameters.height * 500),
-			water.material);
+		// mirrorMesh = new THREE.Mesh(
+		// 	// new THREE.PlaneBufferGeometry(waterParameters.width * 500, waterParameters.height * 500),
+		// 	new THREE.PlaneGeometry( waterParameters.width * 500, waterParameters.height * 500),
+		// 	water.material);
 
-		mirrorMesh.add(water);
-		mirrorMesh.rotation.x = -Math.PI * 0.5;
-		this.scene.addToScene(mirrorMesh);
+		// mirrorMesh.add(water);
+		// mirrorMesh.rotation.x = -Math.PI * 0.5;
+		// this.scene.addToScene(mirrorMesh);
 
 		return Q.fcall(function() {});
 	};
