@@ -606,7 +606,7 @@ function updateDialogs(event) {
 		VIZI.Scene.prototype.loadThermometerModel = function(geometry, materials) {
 		console.log("load thermometer model");
 		var material = new THREE.MeshFaceMaterial(materials);
-
+		material.materials[0].emissive = new THREE.Color(0xffffff);
 		thermometer = new THREE.Mesh(geometry, material);
 	};
 
